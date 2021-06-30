@@ -1,16 +1,14 @@
-# This is a sample Python script.
-
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+from TinkoffInvestmentsProcessor import TinkoffInvestmentsProcessor
+from datetime import datetime
+import configparser
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    config = configparser.ConfigParser()
+    config.read('config.txt')
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    api_key = config['DEFAULT']['APIKey']
+    start_date = datetime.strptime(config['DEFAULT']['StartDate'], "%d.%m.%Y")
+
+    processor = TinkoffInvestmentsProcessor(api_key=api_key, start_date=start_date)
+    processor.process()
