@@ -2,7 +2,7 @@ from unittest.mock import Mock
 from datetime import date
 import unittest
 
-from Portfolio.TinkoffPortfolioLoader import TinkoffPortfolioLoader
+from portfolio import TinkoffPortfolioLoader
 
 
 class TinkoffPortfolioLoaderTests(unittest.TestCase):

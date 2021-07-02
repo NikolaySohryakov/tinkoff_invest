@@ -1,19 +1,9 @@
 from datetime import date
 from dataclasses import dataclass
 
-from Mappers.PortfolioPositionMapper import PortfolioPositionMapper
-from Portfolio.Portfolio import Portfolio
+from mappers import PortfolioPositionMapper
+from portfolio import Portfolio
 from tinvest import SyncClient as TInvestClient
-
-
-@dataclass
-class TinkoffConfig:
-    production_token: str
-    sandbox_token: str
-    use_sandbox: bool
-
-    def token(self):
-        return self.sandbox_token if self.use_sandbox else self.production_token
 
 
 class TinkoffPortfolioLoader:
