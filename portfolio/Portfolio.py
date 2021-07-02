@@ -34,10 +34,7 @@ class PortfolioPosition:
 
 
 class Portfolio:
-    positions: [PortfolioPosition]
-
-    def __init__(self, positions):
-        self.positions = positions
+    positions: [PortfolioPosition] = []
 
     def average(self) -> Decimal:
         return sum(self.positions) / len(self.positions)
