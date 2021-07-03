@@ -2,7 +2,7 @@ from datetime import date
 from datetime import time
 from datetime import datetime
 
-from mappers import PortfolioPositionMapper
+import mappers
 from portfolio import Portfolio
 from tinvest import SyncClient as TInvestClient
 
@@ -28,9 +28,13 @@ class TinkoffPortfolioLoader:
 
         assert portfolio_dto.status == 'Ok'
 
-        portfolio_positions = list(map(PortfolioPositionMapper.map, portfolio_dto.payload.positions))
+        portfolio_positions = list(map(mappers.PortfolioPositionMapper.map, portfolio_dto.payload.positions))
         portfolio.positions = portfolio_positions
 
     def __load_operations(self, portfolio):
         operations_dto = self.client.get_operations(from_=self.start_datetime, to=self.end_datetime)
-        print(operations_dto)
+
+        assert operations_dto.status == 'Ok'
+
+        operations = list(map(mappers.OperationMapper.map, operations_dto.payload.operations))
+        portfolio.operations = operations

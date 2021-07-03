@@ -1,1 +1,2 @@
 from .PortfolioPositionMapper import PortfolioPositionMapper
+from .OperationMapper import OperationMapper

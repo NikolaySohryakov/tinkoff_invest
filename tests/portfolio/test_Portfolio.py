@@ -29,14 +29,8 @@ class PortfolioTests(unittest.TestCase):
                               average_price_no_nkd=MoneyAmount(value=Decimal('11.25'), currency='RUB')
                               ),
         ]
-        self.portfolio = Portfolio(
-            positions=positions
-        )
-
-    def test_average(self):
-        average = self.portfolio.average()
-
-        self.assertEqual(average, Decimal('67.475'))
+        self.portfolio = Portfolio()
+        self.portfolio.positions = positions
 
 
 if __name__ == '__main__':

@@ -17,5 +17,5 @@ if __name__ == '__main__':
 
     client = TInvestClient(token=token, use_sandbox=use_sandbox)
 
-    processor = TinkoffPortfolioLoader(client=client, start_date=start_date)
-    processor.load()
+    portfolio_loader = TinkoffPortfolioLoader(client=client, start_date=start_date)
+    portfolio = portfolio_loader.load()

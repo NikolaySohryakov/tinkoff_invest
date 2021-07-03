@@ -5,7 +5,7 @@ from unittest.mock import Mock
 from tinvest import MoneyAmount as TinkoffMoneyAmount
 from tinvest import Currency
 
-from mappers import MoneyAmountMapper
+from mappers.MoneyAmountMapper import MoneyAmountMapper
 
 
 class MyTestCase(unittest.TestCase):

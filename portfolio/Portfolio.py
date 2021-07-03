@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from datetime import datetime
 from decimal import Decimal
 from typing import Optional
 
@@ -33,8 +34,16 @@ class PortfolioPosition:
         return other + self.average_price_no_nkd.value
 
 
+@dataclass
+class Operation:
+    id: str
+    figi: Optional[str]
+    date: datetime
+    currency: str  # ISO 4217 currency code
+    payment: Decimal
+
+
 class Portfolio:
     positions: [PortfolioPosition] = []
+    operations: [Operation] = []
 
-    def average(self) -> Decimal:
-        return sum(self.positions) / len(self.positions)

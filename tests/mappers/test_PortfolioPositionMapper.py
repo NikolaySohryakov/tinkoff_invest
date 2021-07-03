@@ -2,7 +2,7 @@ from decimal import Decimal
 from unittest.mock import Mock
 import unittest
 
-from mappers import PortfolioPositionMapper
+from mappers.PortfolioPositionMapper import PortfolioPositionMapper
 
 
 class PortfolioPositionMapperTests(unittest.TestCase):
