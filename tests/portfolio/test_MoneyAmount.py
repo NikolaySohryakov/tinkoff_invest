@@ -4,7 +4,7 @@ from decimal import Decimal
 from portfolio import MoneyAmount
 
 
-class MyTestCase(unittest.TestCase):
+class MoneyAmountTests(unittest.TestCase):
     def test_currency_always_upper(self):
         money_amount = MoneyAmount(value=Decimal('10'), currency='usd')
 
