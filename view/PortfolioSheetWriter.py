@@ -13,35 +13,58 @@ class PortfolioSheetWriter:
         self.formats = formats
 
     def write(self, portfolio: Portfolio):
-        header_cell = CellIterator('A1')
-        first_position_cell = CellIterator('A2')
+        header_cell = CellIterator('A5')
+        first_position_cell = CellIterator('A6')
 
+        self.__write_market_rates(portfolio)
         self.__write_headers(start_cell=header_cell)
-        self.__write_positions(start_cell=first_position_cell, positions=portfolio.positions)
+        self.__write_positions(start_cell=first_position_cell, portfolio=portfolio)
+
+    def __write_market_rates(self, portfolio):
+        self.worksheet.merge_range(0, 0,
+                                   0, 1,
+                                   'Market Rates',
+                                   self.formats.headers['OPERATIONS_GROUP'])
+
+        currency_cell = CellIterator('A2')
+        rate_cell = CellIterator('B2')
+
+        for currency, rate in portfolio.currency_prices.items():
+            if currency == 'RUB':
+                continue
+
+            self.worksheet.write(currency_cell.__str__(), currency)
+            self.worksheet.write(rate_cell.__str__(), rate)
 
     def __write_headers(self, start_cell):
         headers = ['Name', 'Ticker', 'Balance', 'Currency', 'Average Price', 'Buy', 'Expected Yield', 'Market Price',
-                   '% change', 'Market Value']
+                   '% change', 'Market Value', 'Market Value RUB']
 
         for header in headers:
             self.worksheet.write(start_cell.__str__(), header, self.formats.headers['PORTFOLIO'])
             start_cell.next_col()
 
-    def __write_positions(self, start_cell, positions: [PortfolioPosition]):
+    def __write_positions(self, start_cell, portfolio: Portfolio):
         cell = copy(start_cell)
 
-        for position in positions:
+        for position in portfolio.positions:
+            average_buy = position.average_buy()
+            market_price = position.market_price()
+            market_value = position.market_value()
+            market_value_rub = portfolio.convert(position.market_value(), 'RUB')
+
             values = [
                 (position.name, None),
                 (position.ticker, None),
                 (position.balance, None),
                 (position.average_price.currency, None),
                 (position.average_price.value, self.formats.currency[position.average_price.currency]),
-                (position.average_buy(), self.formats.currency[position.average_price.currency]),
+                (average_buy.value, self.formats.currency[average_buy.currency]),
                 (position.expected_yield.value, self.formats.currency[position.average_price.currency]),
-                (position.market_price(), self.formats.currency[position.average_price.currency]),
+                (market_price.value, self.formats.currency[market_price.currency]),
                 (position.change_percent(), None),
-                (position.market_value(), self.formats.currency[position.average_price.currency])
+                (market_value.value, self.formats.currency[market_value.currency]),
+                (market_value_rub.value, self.formats.currency[market_value_rub.currency]),
             ]
 
             for col_num, value in enumerate(values):

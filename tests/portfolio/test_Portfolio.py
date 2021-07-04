@@ -2,7 +2,7 @@ import unittest
 from decimal import Decimal
 from unittest.mock import Mock
 
-from portfolio import Portfolio
+from portfolio import Portfolio, MoneyAmount
 from tests.portfolio import OperationsMocks, PositionsMocks
 
 
@@ -136,6 +136,14 @@ class PortfolioTests(unittest.TestCase):
         currencies = self.portfolio.all_portfolio_currencies()
 
         self.assertEqual(currencies, {'USD', 'RUB'})
+
+    def test_convert_currency_usd_to_rub(self):
+        money_amount = MoneyAmount(value=Decimal(10), currency='USD')
+        self.portfolio.currency_prices = {'USD': Decimal('73.3')}
+        result = self.portfolio.convert(money_amount, 'RUB')
+
+        self.assertEqual('RUB', result.currency)
+        self.assertEqual(Decimal(733), result.value)
 
 
 if __name__ == '__main__':

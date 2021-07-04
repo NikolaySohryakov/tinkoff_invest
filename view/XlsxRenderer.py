@@ -80,9 +80,16 @@ class XlsxRenderer:
             })
         }
 
+        styles = {
+            'BOLD': self.workbook.add_format({
+                'bold': True
+            })
+        }
+
         self.formats = WorkbookFormats(currency=currency,
                                        headers=headers,
-                                       dates=dates)
+                                       dates=dates,
+                                       styles=styles)
 
 
 # portfolio = Portfolio()

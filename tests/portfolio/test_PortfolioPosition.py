@@ -22,7 +22,8 @@ class PortfolioPositionTests(unittest.TestCase):
         self.position.average_price = MoneyAmount(value=Decimal('21.2'), currency='USD')
         result = self.position.average_buy()
 
-        self.assertEqual(Decimal('212'), result)
+        self.assertEqual(Decimal('212'), result.value)
+        self.assertEqual('USD', result.currency)
 
     def test_market_price_positive(self):
         self.position.average_price = MoneyAmount(value=Decimal('553'), currency='RUB')
@@ -30,7 +31,8 @@ class PortfolioPositionTests(unittest.TestCase):
 
         result = self.position.market_price()
 
-        self.assertEqual(Decimal(563), result)
+        self.assertEqual(Decimal(563), result.value)
+        self.assertEqual('RUB', result.currency)
 
     def test_market_price_negative(self):
         self.position.average_price = MoneyAmount(value=Decimal('553'), currency='RUB')
@@ -38,7 +40,8 @@ class PortfolioPositionTests(unittest.TestCase):
 
         result = self.position.market_price()
 
-        self.assertEqual(Decimal(551.5), result)
+        self.assertEqual(Decimal(551.5), result.value)
+        self.assertEqual('RUB', result.currency)
 
     def test_change_percent_positive(self):
         self.position.average_price = MoneyAmount(value=Decimal('71.61'), currency='RUB')
@@ -62,7 +65,8 @@ class PortfolioPositionTests(unittest.TestCase):
 
         result = self.position.market_value()
 
-        self.assertEqual(Decimal('657'), result)
+        self.assertEqual(Decimal('657'), result.value)
+        self.assertEqual('RUB', result.currency)
 
 
 if __name__ == '__main__':

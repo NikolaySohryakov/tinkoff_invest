@@ -36,7 +36,9 @@ class PortfolioPosition:
         if self.average_price is None:
             return Decimal(0)
 
-        return self.average_price.value * self.balance
+        value = self.average_price.value * self.balance
+
+        return MoneyAmount(value=value, currency=self.average_price.currency)
 
     def market_price(self):
         if self.average_price is None:
@@ -46,11 +48,15 @@ class PortfolioPosition:
             return self.average_price
 
         yield_per_item = Decimal(self.expected_yield.value / self.balance)
+        value = self.average_price.value + yield_per_item
 
-        return self.average_price.value + yield_per_item
+        return MoneyAmount(value=value, currency=self.average_price.currency)
 
     def market_value(self):
-        return self.market_price() * self.balance
+        market_price = self.market_price()
+        value = market_price.value * self.balance
+
+        return MoneyAmount(value=value, currency=market_price.currency)
 
     def change_percent(self):
         if self.average_price is None:
@@ -58,7 +64,7 @@ class PortfolioPosition:
 
         market_price = self.market_price()
 
-        return (market_price * 100 / self.average_price.value - 100).quantize(Decimal('.01'))
+        return (market_price.value * 100 / self.average_price.value - 100).quantize(Decimal('.01'))
 
     def __radd__(self, other):
         return other + self.average_price_no_nkd.value
@@ -196,3 +202,9 @@ class Portfolio:
             result.add(currency)
 
         return result
+
+    def convert(self, money_amount, target_currency):
+        price = self.currency_prices[money_amount.currency]
+        value = money_amount.value * price
+
+        return MoneyAmount(value=value, currency=target_currency)

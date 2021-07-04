@@ -6,3 +6,4 @@ class WorkbookFormats:
     currency: {}
     headers: {}
     dates: {}
+    styles: {}
