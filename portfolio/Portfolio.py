@@ -41,6 +41,11 @@ class Operation:
     date: datetime
     currency: str  # ISO 4217 currency code
     payment: Decimal
+    commission: Optional[MoneyAmount]
+    operation_type: str
+    price: Optional[Decimal]
+    quantity: Optional[int]
+    status: str
 
 
 class Portfolio:
