@@ -26,3 +26,14 @@ class PayInOperationsSheetWriter:
 
             self.worksheet.write(dates.__str__(), operation.date, self.formats.dates['FULL'])
             self.worksheet.write(values.__str__(), operation.payment, self.formats.currency[operation.currency])
+
+        dates.next_row()
+        dates.next_row()
+
+        values.next_row()
+        values.next_row()
+
+        total_pay_in = portfolio.total_pay_in()
+
+        self.worksheet.write(dates.__str__(), 'Total RUB', self.formats.styles['BOLD'])
+        self.worksheet.write(values.__str__(), total_pay_in.value, self.formats.currency[total_pay_in.currency])

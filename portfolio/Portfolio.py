@@ -18,6 +18,12 @@ class MoneyAmount:
         """ISO 4217 currency code"""
         return self._currency.upper()
 
+    def __add__(self, other):
+        if other.currency != self.currency:
+            raise ValueError
+
+        return MoneyAmount(value=other.value + self.value, currency=self.currency)
+
 
 @dataclass
 class PortfolioPosition:
@@ -94,6 +100,16 @@ class Portfolio:
             return operation.operation_type == 'PayIn'
 
         return list(filter(filter_pay_in, self.operations))
+
+    def total_pay_in(self):
+        pay_in_operations = self.pay_in_operations()
+
+        result = Decimal(0)
+
+        for operation in pay_in_operations:
+            result += self.convert(MoneyAmount(value=operation.payment, currency=operation.currency), 'RUB').value
+
+        return MoneyAmount(value=result, currency='RUB')
 
     def pay_out_operations(self) -> [Operation]:
         def filter_pay_out(operation):

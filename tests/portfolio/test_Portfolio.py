@@ -11,12 +11,22 @@ class PortfolioTests(unittest.TestCase):
         self.portfolio = Portfolio()
         self.portfolio.positions = PositionsMocks.positions
         self.portfolio.operations = OperationsMocks.operations
+        self.portfolio.market_rates = {
+            'USD': Decimal('73.3'),
+            'RUB': Decimal('1')
+        }
 
     def test_pay_in_operations(self):
         operations = self.portfolio.pay_in_operations()
 
-        self.assertEqual(len(operations), 1)
+        self.assertEqual(len(operations), 2)
         self.assertEqual(operations[0].operation_type, 'PayIn')
+
+    def test_total_pay_in(self):
+        result = self.portfolio.total_pay_in()
+
+        self.assertEqual(result.currency,  'RUB')
+        self.assertEqual(result.value, Decimal('833'))
 
     def test_pay_out_operations(self):
         operations = self.portfolio.pay_out_operations()
