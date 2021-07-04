@@ -3,37 +3,13 @@ from decimal import Decimal
 from unittest.mock import Mock
 
 from portfolio import Portfolio
-from portfolio import PortfolioPosition
-from portfolio.Portfolio import MoneyAmount
-from tests.portfolio import OperationsMocks
+from tests.portfolio import OperationsMocks, PositionsMocks
 
 
 class PortfolioTests(unittest.TestCase):
     def setUp(self) -> None:
-        positions = [
-            PortfolioPosition(figi='',
-                              isin='',
-                              name='',
-                              ticker=None,
-                              balance=Decimal('1'),
-                              lots=10,
-                              average_price=MoneyAmount(value=Decimal('123.7'), currency='RUB'),
-                              average_price_no_nkd=MoneyAmount(value=Decimal('123.7'), currency='RUB')
-                              ),
-
-            PortfolioPosition(figi='',
-                              isin='',
-                              name='',
-                              ticker=None,
-                              balance=Decimal('11'),
-                              lots=10,
-                              average_price=MoneyAmount(value=Decimal('11.25'), currency='RUB'),
-                              average_price_no_nkd=MoneyAmount(value=Decimal('11.25'), currency='RUB')
-                              ),
-        ]
-
         self.portfolio = Portfolio()
-        self.portfolio.positions = positions
+        self.portfolio.positions = PositionsMocks.positions
         self.portfolio.operations = OperationsMocks.operations
 
     def test_pay_in_operations(self):
@@ -155,6 +131,11 @@ class PortfolioTests(unittest.TestCase):
 
         self.assertEqual(len(operations), 1)
         self.assertEqual(operations[0].operation_type, 'TaxBack')
+
+    def test_all_portfolio_currencies(self):
+        currencies = self.portfolio.all_portfolio_currencies()
+
+        self.assertEqual(currencies, {'USD', 'RUB'})
 
 
 if __name__ == '__main__':

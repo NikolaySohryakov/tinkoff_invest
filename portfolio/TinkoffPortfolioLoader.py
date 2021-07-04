@@ -7,6 +7,12 @@ from portfolio import Portfolio
 from tinvest import SyncClient as TInvestClient
 
 
+currencies_figi = {
+    'USD': 'BBG0013HGFT4',
+    'EUR': 'BBG0013HJJ31'
+}
+
+
 class TinkoffPortfolioLoader:
     config: TInvestClient
 
@@ -20,6 +26,7 @@ class TinkoffPortfolioLoader:
 
         self.__load_positions(portfolio)
         self.__load_operations(portfolio)
+        self.__load_market_exchange_rates(portfolio)
 
         return portfolio
 
@@ -38,3 +45,18 @@ class TinkoffPortfolioLoader:
 
         operations = list(map(mappers.OperationMapper.map, operations_dto.payload.operations))
         portfolio.operations = operations
+
+    def __load_market_exchange_rates(self, portfolio):
+        currencies = portfolio.all_portfolio_currencies()
+
+        for currency in currencies:
+            try:
+                figi = currencies_figi[currency]
+
+                orderbook = self.client.get_market_orderbook(figi, 20)
+                last_price = orderbook.payload.last_price
+
+                portfolio.currency_prices[currency] = last_price
+            except KeyError:
+                print('Skipping currency:' + currency)
+                pass

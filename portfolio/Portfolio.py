@@ -51,6 +51,7 @@ class Operation:
 class Portfolio:
     positions: [PortfolioPosition] = []
     operations: [Operation] = []
+    currency_prices: {} = {}
 
     def pay_in_operations(self) -> [Operation]:
         def filter_pay_in(operation):
@@ -153,3 +154,15 @@ class Portfolio:
             return operation.operation_type == 'TaxBack'
 
         return list(filter(filter_tax_back, self.operations))
+
+    def all_portfolio_currencies(self) -> set[str]:
+        result = set()
+
+        for position in self.positions:
+            if position.average_price is None:
+                continue
+
+            currency = position.average_price.currency
+            result.add(currency)
+
+        return result
