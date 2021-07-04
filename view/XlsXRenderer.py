@@ -41,6 +41,19 @@ class CellIterator:
 
             self.col = self.col[:-1] + next_char
 
+    def col_index(self) -> int:
+        """Zero-based index or a column."""
+        result = 0
+
+        for index, char in enumerate(self.col):
+            result += ord(char.upper()) - ord('A') + (ord('Z') - ord('A') + 1) * index
+
+        return result
+
+    def row_index(self) -> int:
+        """Zero-based index of a row."""
+        return self.row - 1
+
     def __str__(self):
         return self.col.upper() + str(self.row)
 
@@ -48,6 +61,7 @@ class CellIterator:
 class XlsxRenderer:
     def __init__(self, output_file_path):
         self.workbook = xlsxwriter.Workbook(output_file_path)
+        self.__prepare_formats()
 
     def render_portfolio(self, portfolio: Portfolio):
         portfolio_worksheet = self.workbook.add_worksheet(name='Portfolio')
@@ -55,6 +69,18 @@ class XlsxRenderer:
         self.__write_portfolio_sheet(worksheet=portfolio_worksheet, portfolio=portfolio)
 
         self.workbook.close()
+
+    def __prepare_formats(self):
+        self.currency_format = {
+            'USD': self.workbook.add_format({
+                'num_format': '$ #,##0.00',
+                'align': 'right'
+            }),
+            'RUB': self.workbook.add_format({
+                'num_format': 'RUR #,##0.00',
+                'align': 'right'
+            })
+        }
 
     def __write_portfolio_sheet(self, worksheet: Worksheet, portfolio):
         header_cell = CellIterator('A1')
@@ -64,13 +90,11 @@ class XlsxRenderer:
         self.__write_positions(start_cell=first_position_cell, worksheet=worksheet, positions=portfolio.positions)
 
     def __write_headers(self, start_cell, worksheet: Worksheet):
-        cell_format = self.workbook.add_format(
-            {
-                'bold': True,
-                'bg_color': '#CCCCCC',
-                'align': 'center'
-            }
-        )
+        cell_format = self.workbook.add_format({
+            'bold': True,
+            'bg_color': '#CCCCCC',
+            'align': 'center'
+        })
 
         headers = ['Name', 'Ticker', 'Balance', 'Currency', 'Average Price']
 
@@ -80,26 +104,22 @@ class XlsxRenderer:
 
     def __write_positions(self, start_cell, worksheet: Worksheet, positions: [PortfolioPosition]):
         cell = copy(start_cell)
+
         for position in positions:
-            worksheet.write(cell.__str__(), position.name)
+            values = [
+                (position.name, None),
+                (position.ticker, None),
+                (position.balance, None),
+                (position.average_price.currency, None),
+                (position.average_price.value, self.currency_format[position.average_price.currency])
+            ]
 
-            cell.next_col()
-            worksheet.write(cell.__str__(), position.ticker)
+            for col_num, value in enumerate(values):
+                worksheet.write(cell.row_index(), cell.col_index() + col_num, value[0], value[1])
 
-            cell.next_col()
-            worksheet.write(cell.__str__(), position.balance)
-
-            cell.next_col()
-            worksheet.write(cell.__str__(), position.average_price.currency)
-
-            cell.next_col()
-            worksheet.write(cell.__str__(), position.average_price.value)
-
-            cell.col = start_cell.col
             cell.next_row()
 
 
-# portfolio = Portfolio()
 # portfolio.positions = [
 #     PortfolioPosition(figi='figi1',
 #                       isin='isin1',
@@ -107,21 +127,22 @@ class XlsxRenderer:
 #                       ticker='ticker1',
 #                       balance=Decimal('10'),
 #                       lots=10,
-#                       average_price=MoneyAmount(value=Decimal('100'),
-#                                                 currency='USD'),
-#                       average_price_no_nkd=MoneyAmount(value=Decimal('100'),
-#                                                        currency='USD')),
+#                       average_price=MoneyAmount(value=Decimal('100.34'),
+#                                                 currency='RUB'),
+#                       average_price_no_nkd=MoneyAmount(value=Decimal('100.02'),
+#                                                        currency='RUB')),
 #     PortfolioPosition(figi='figi1',
 #                       isin='isin1',
 #                       name='name1',
 #                       ticker='ticker1',
 #                       balance=Decimal('15'),
 #                       lots=10,
-#                       average_price=MoneyAmount(value=Decimal('100'),
+#                       average_price=MoneyAmount(value=Decimal('100.23'),
 #                                                 currency='USD'),
-#                       average_price_no_nkd=MoneyAmount(value=Decimal('100'),
+#                       average_price_no_nkd=MoneyAmount(value=Decimal('100.2'),
 #                                                        currency='USD'))
 #
 # ]
+# portfolio = Portfolio()
 # renderer = XlsxRenderer('/Users/nsohryakov/workspace/tinkoff_parser/view/output.xlsx')
 # renderer.render_portfolio(portfolio)

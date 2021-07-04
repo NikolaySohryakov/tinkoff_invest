@@ -47,6 +47,23 @@ class CellIteratorTests(unittest.TestCase):
         self.assertEqual(index.col, 'A')
         self.assertEqual(index.row, 33)
 
+    def test_col_index(self):
+        index_a = CellIterator('A1')
+        index_z = CellIterator('Z1')
+        index_aa = CellIterator('AA1')
+        index_az = CellIterator('AZ1')
+
+        self.assertEqual(index_a.col_index(), 0)
+        self.assertEqual(index_z.col_index(), 25)
+        self.assertEqual(index_aa.col_index(), 26)
+        self.assertEqual(index_az.col_index(), 51)
+
+    def test_row_index(self):
+        index_0 = CellIterator('A1')
+        index_54 = CellIterator('A55')
+
+        self.assertEqual(index_0.row_index(), 0)
+        self.assertEqual(index_54.row_index(), 54)
 
 if __name__ == '__main__':
     unittest.main()
