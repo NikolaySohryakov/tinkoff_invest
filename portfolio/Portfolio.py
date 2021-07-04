@@ -123,3 +123,33 @@ class Portfolio:
             return operation.operation_type == 'OtherCommission'
 
         return list(filter(filter_other_commissions, self.operations))
+
+    def tax_common(self) -> [Operation]:
+        def filter_tax_common(operation):
+            return operation.operation_type == 'Tax'
+
+        return list(filter(filter_tax_common, self.operations))
+
+    def tax_dividend(self) -> [Operation]:
+        def filter_tax_dividend(operation):
+            return operation.operation_type == 'TaxDividend'
+
+        return list(filter(filter_tax_dividend, self.operations))
+
+    def tax_coupon(self) -> [Operation]:
+        def filter_tax_coupon(operation):
+            return operation.operation_type == 'TaxCoupon'
+
+        return list(filter(filter_tax_coupon, self.operations))
+
+    def tax_lucre(self) -> [Operation]:
+        def filter_tax_lucre(operation):
+            return operation.operation_type == 'TaxLucre'
+
+        return list(filter(filter_tax_lucre, self.operations))
+
+    def tax_back(self) -> [Operation]:
+        def filter_tax_back(operation):
+            return operation.operation_type == 'TaxBack'
+
+        return list(filter(filter_tax_back, self.operations))

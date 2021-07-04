@@ -126,6 +126,36 @@ class PortfolioTests(unittest.TestCase):
         self.assertEqual(len(operations), 1)
         self.assertEqual(operations[0].operation_type, 'OtherCommission')
 
+    def test_tax_common(self):
+        operations = self.portfolio.tax_common()
+
+        self.assertEqual(len(operations), 1)
+        self.assertEqual(operations[0].operation_type, 'Tax')
+
+    def test_tax_dividend(self):
+        operations = self.portfolio.tax_dividend()
+
+        self.assertEqual(len(operations), 1)
+        self.assertEqual(operations[0].operation_type, 'TaxDividend')
+
+    def test_tax_coupon(self):
+        operations = self.portfolio.tax_coupon()
+
+        self.assertEqual(len(operations), 1)
+        self.assertEqual(operations[0].operation_type, 'TaxCoupon')
+
+    def test_tax_lucre(self):
+        operations = self.portfolio.tax_lucre()
+
+        self.assertEqual(len(operations), 1)
+        self.assertEqual(operations[0].operation_type, 'TaxLucre')
+
+    def test_tax_back(self):
+        operations = self.portfolio.tax_back()
+
+        self.assertEqual(len(operations), 1)
+        self.assertEqual(operations[0].operation_type, 'TaxBack')
+
 
 if __name__ == '__main__':
     unittest.main()

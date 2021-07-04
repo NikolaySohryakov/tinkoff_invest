@@ -14,6 +14,7 @@ from view.PayInOperationsSheetWriter import PayInOperationsSheetWriter
 from view.PayOutOperationsSheetWriter import PayOutOperationsSheetWriter
 from view.PortfolioSheetWriter import PortfolioSheetWriter
 from view.SellOperationsSheetWriter import SellOperationsSheetWriter
+from view.TaxSheetWriter import TaxSheetWriter
 from view.WorkbookFormats import WorkbookFormats
 
 
@@ -31,6 +32,7 @@ class XlsxRenderer:
         sell_worksheet = self.workbook.add_worksheet(name='Sell')
         income_worksheet = self.workbook.add_worksheet(name='Income')
         commissions_worksheet = self.workbook.add_worksheet(name='Commissions')
+        tax_worksheet = self.workbook.add_worksheet(name='Taxes')
 
         writers = [
             PortfolioSheetWriter(worksheet=portfolio_worksheet, formats=self.formats),
@@ -39,7 +41,8 @@ class XlsxRenderer:
             BuyOperationsSheetWriter(worksheet=buy_worksheet, formats=self.formats),
             SellOperationsSheetWriter(worksheet=sell_worksheet, formats=self.formats),
             IncomeOperationsSheetWriter(worksheet=income_worksheet, formats=self.formats),
-            CommissionsSheetWriter(worksheet=commissions_worksheet, formats=self.formats)
+            CommissionsSheetWriter(worksheet=commissions_worksheet, formats=self.formats),
+            TaxSheetWriter(worksheet=tax_worksheet, formats=self.formats)
         ]
 
         for writer in writers:
