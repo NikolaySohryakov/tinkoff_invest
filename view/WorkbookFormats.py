@@ -5,3 +5,4 @@ from dataclasses import dataclass
 class WorkbookFormats:
     currency: {}
     headers: {}
+    dates: {}
