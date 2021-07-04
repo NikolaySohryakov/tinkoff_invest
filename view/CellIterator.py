@@ -19,6 +19,9 @@ class CellIterator:
             self.col = col_str
             self.row = row
 
+        assert self.row is not None
+        assert self.col is not None
+
     def next_row(self):
         self.row += 1
 

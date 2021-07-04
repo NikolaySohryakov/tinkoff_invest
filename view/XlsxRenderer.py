@@ -7,7 +7,8 @@ import xlsxwriter
 from portfolio import Portfolio, Operation
 from portfolio import PortfolioPosition
 from portfolio import MoneyAmount
-from view.OperationsSheetWriter import OperationsSheetWriter
+from view.PayInOperationsSheetWriter import PayInOperationsSheetWriter
+from view.PayOutOperationsSheetWriter import PayOutOperationsSheetWriter
 from view.PortfolioSheetWriter import PortfolioSheetWriter
 from view.WorkbookFormats import WorkbookFormats
 
@@ -15,15 +16,18 @@ from view.WorkbookFormats import WorkbookFormats
 class XlsxRenderer:
     def __init__(self, output_file_path):
         self.workbook = xlsxwriter.Workbook(output_file_path)
+        self.workbook.remove_timezone = True
         self.__prepare_formats()
 
     def render_portfolio(self, portfolio: Portfolio):
         portfolio_worksheet = self.workbook.add_worksheet(name='Portfolio')
-        operations_worksheet = self.workbook.add_worksheet(name='Operations')
+        pay_in_worksheet = self.workbook.add_worksheet(name='Pay In')
+        pay_out_worksheet = self.workbook.add_worksheet(name='Pay Out')
 
         writers = [
             PortfolioSheetWriter(worksheet=portfolio_worksheet, formats=self.formats),
-            OperationsSheetWriter(worksheet=operations_worksheet, formats=self.formats)
+            PayInOperationsSheetWriter(worksheet=pay_in_worksheet, formats=self.formats),
+            PayOutOperationsSheetWriter(worksheet=pay_out_worksheet, formats=self.formats)
         ]
 
         for writer in writers:

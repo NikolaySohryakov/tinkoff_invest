@@ -52,3 +52,14 @@ class Portfolio:
     positions: [PortfolioPosition] = []
     operations: [Operation] = []
 
+    def pay_in_operations(self) -> [Operation]:
+        def filter_pay_in(operation):
+            return operation.operation_type == 'PayIn'
+
+        return list(filter(filter_pay_in, self.operations))
+
+    def pay_out_operations(self) -> [Operation]:
+        def filter_pay_out(operation):
+            return operation.operation_type == 'PayOut'
+
+        return list(filter(filter_pay_out, self.operations))

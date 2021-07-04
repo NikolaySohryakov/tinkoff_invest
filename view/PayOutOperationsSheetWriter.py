@@ -1,13 +1,11 @@
-from copy import copy
-
 from xlsxwriter.worksheet import Worksheet
 
-from portfolio import Portfolio, PortfolioPosition
+from portfolio import Portfolio
 from view.CellIterator import CellIterator
 from view.WorkbookFormats import WorkbookFormats
 
 
-class OperationsSheetWriter:
+class PayOutOperationsSheetWriter:
     def __init__(self, worksheet: Worksheet, formats: WorkbookFormats):
         self.worksheet = worksheet
         self.formats = formats
@@ -19,20 +17,10 @@ class OperationsSheetWriter:
         dates = CellIterator('A1')
         values = CellIterator('B1')
 
-        self.worksheet.merge_range(dates.row_index(),
-                                   dates.col_index(),
-                                   values.row_index(),
-                                   values.col_index(),
-                                   'Pay In',
-                                   self.formats.headers['OPERATIONS_GROUP'])
-
-        dates.next_row()
-        values.next_row()
-
         self.worksheet.write(dates.__str__(), 'Date', self.formats.headers['OPERATIONS_GROUP'])
         self.worksheet.write(values.__str__(), 'Value', self.formats.headers['OPERATIONS_GROUP'])
 
-        for operation in portfolio.operations:
+        for operation in portfolio.pay_out_operations():
             dates.next_row()
             values.next_row()
 

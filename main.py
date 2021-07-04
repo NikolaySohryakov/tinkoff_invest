@@ -3,6 +3,7 @@ from datetime import datetime
 from tinvest import SyncClient as TInvestClient
 import configparser
 
+from view.XlsxRenderer import XlsxRenderer
 
 if __name__ == '__main__':
     config = configparser.ConfigParser()
@@ -19,3 +20,6 @@ if __name__ == '__main__':
 
     portfolio_loader = TinkoffPortfolioLoader(client=client, start_date=start_date)
     portfolio = portfolio_loader.load()
+
+    xlsx_writer = XlsxRenderer('/Users/nsohryakov/workspace/tinkoff_parser/view/output.xlsx')
+    xlsx_writer.render_portfolio(portfolio)
