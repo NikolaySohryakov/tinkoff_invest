@@ -11,9 +11,9 @@ class PayOutOperationsSheetWriter:
         self.formats = formats
 
     def write(self, portfolio: Portfolio):
-        self.__write_pay_in(portfolio)
+        self.__write_pay_out(portfolio)
 
-    def __write_pay_in(self, portfolio: Portfolio):
+    def __write_pay_out(self, portfolio: Portfolio):
         dates = CellIterator('A1')
         values = CellIterator('B1')
 

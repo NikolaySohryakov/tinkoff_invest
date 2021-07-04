@@ -84,6 +84,18 @@ class PortfolioTests(unittest.TestCase):
         for operation in operations:
             self.assertNotEqual(operation.payment, 0)
 
+    def test_coupons(self):
+        operations = self.portfolio.coupons()
+
+        self.assertEqual(len(operations), 1)
+        self.assertEqual(operations[0].operation_type, 'Coupon')
+
+    def test_dividends(self):
+        operations = self.portfolio.dividends()
+
+        self.assertEqual(len(operations), 1)
+        self.assertEqual(operations[0].operation_type, 'Dividend')
+
 
 if __name__ == '__main__':
     unittest.main()

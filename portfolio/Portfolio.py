@@ -81,3 +81,15 @@ class Portfolio:
             return is_sell_operation and not is_zero_operation
 
         return list(filter(filter_sell, self.operations))
+
+    def coupons(self) -> [Operation]:
+        def filter_coupon(operation):
+            return operation.operation_type == 'Coupon'
+
+        return list(filter(filter_coupon, self.operations))
+
+    def dividends(self) -> [Operation]:
+        def filter_dividends(operation):
+            return operation.operation_type == 'Dividend'
+
+        return list(filter(filter_dividends, self.operations))

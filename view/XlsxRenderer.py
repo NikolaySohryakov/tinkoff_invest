@@ -8,6 +8,7 @@ from portfolio import Portfolio, Operation
 from portfolio import PortfolioPosition
 from portfolio import MoneyAmount
 from view.BuyOperationsSheetWriter import BuyOperationsSheetWriter
+from view.IncomeOperationsSheetWriter import IncomeOperationsSheetWriter
 from view.PayInOperationsSheetWriter import PayInOperationsSheetWriter
 from view.PayOutOperationsSheetWriter import PayOutOperationsSheetWriter
 from view.PortfolioSheetWriter import PortfolioSheetWriter
@@ -27,13 +28,15 @@ class XlsxRenderer:
         pay_out_worksheet = self.workbook.add_worksheet(name='Pay Out')
         buy_worksheet = self.workbook.add_worksheet(name='Buy')
         sell_worksheet = self.workbook.add_worksheet(name='Sell')
+        income_worksheet = self.workbook.add_worksheet(name='Income')
 
         writers = [
             PortfolioSheetWriter(worksheet=portfolio_worksheet, formats=self.formats),
             PayInOperationsSheetWriter(worksheet=pay_in_worksheet, formats=self.formats),
             PayOutOperationsSheetWriter(worksheet=pay_out_worksheet, formats=self.formats),
             BuyOperationsSheetWriter(worksheet=buy_worksheet, formats=self.formats),
-            SellOperationsSheetWriter(worksheet=sell_worksheet, formats=self.formats)
+            SellOperationsSheetWriter(worksheet=sell_worksheet, formats=self.formats),
+            IncomeOperationsSheetWriter(worksheet=income_worksheet, formats=self.formats)
         ]
 
         for writer in writers:
