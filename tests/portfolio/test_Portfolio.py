@@ -96,6 +96,36 @@ class PortfolioTests(unittest.TestCase):
         self.assertEqual(len(operations), 1)
         self.assertEqual(operations[0].operation_type, 'Dividend')
 
+    def test_broker_commissions(self):
+        operations = self.portfolio.broker_commissions()
+
+        self.assertEqual(len(operations), 1)
+        self.assertEqual(operations[0].operation_type, 'BrokerCommission')
+
+    def test_exchange_commissions(self):
+        operations = self.portfolio.exchange_commissions()
+
+        self.assertEqual(len(operations), 1)
+        self.assertEqual(operations[0].operation_type, 'ExchangeCommission')
+
+    def test_service_commissions(self):
+        operations = self.portfolio.service_commissions()
+
+        self.assertEqual(len(operations), 1)
+        self.assertEqual(operations[0].operation_type, 'ServiceCommission')
+
+    def test_margin_commissions(self):
+        operations = self.portfolio.margin_commissions()
+
+        self.assertEqual(len(operations), 1)
+        self.assertEqual(operations[0].operation_type, 'MarginCommission')
+
+    def test_other_commissions(self):
+        operations = self.portfolio.other_commissions()
+
+        self.assertEqual(len(operations), 1)
+        self.assertEqual(operations[0].operation_type, 'OtherCommission')
+
 
 if __name__ == '__main__':
     unittest.main()

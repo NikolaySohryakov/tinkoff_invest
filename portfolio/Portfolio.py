@@ -93,3 +93,33 @@ class Portfolio:
             return operation.operation_type == 'Dividend'
 
         return list(filter(filter_dividends, self.operations))
+
+    def broker_commissions(self) -> [Operation]:
+        def filter_broker_commissions(operation):
+            return operation.operation_type == 'BrokerCommission'
+
+        return list(filter(filter_broker_commissions, self.operations))
+
+    def exchange_commissions(self) -> [Operation]:
+        def filter_exchange_commissions(operation):
+            return operation.operation_type == 'ExchangeCommission'
+
+        return list(filter(filter_exchange_commissions, self.operations))
+
+    def service_commissions(self) -> [Operation]:
+        def filter_service_commissions(operation):
+            return operation.operation_type == 'ServiceCommission'
+
+        return list(filter(filter_service_commissions, self.operations))
+
+    def margin_commissions(self) -> [Operation]:
+        def filter_margin_commissions(operation):
+            return operation.operation_type == 'MarginCommission'
+
+        return list(filter(filter_margin_commissions, self.operations))
+
+    def other_commissions(self) -> [Operation]:
+        def filter_other_commissions(operation):
+            return operation.operation_type == 'OtherCommission'
+
+        return list(filter(filter_other_commissions, self.operations))
