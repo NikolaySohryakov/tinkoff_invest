@@ -49,13 +49,6 @@ class PortfolioTests(unittest.TestCase):
         self.assertEqual(operations[0].operation_type, 'PayOut')
 
     def test_buy_operations(self):
-        operations = self.portfolio.buy_operations()
-
-        self.assertEqual(len(operations), 2)
-        self.assertEqual(operations[0].operation_type, 'Buy')
-        self.assertEqual(operations[1].operation_type, 'BuyCard')
-
-    def test_buy_operations_ignore_zero_operations(self):
         zero_buy = Mock(
             operation_type='Buy',
             payment=Decimal('0')
@@ -72,8 +65,24 @@ class PortfolioTests(unittest.TestCase):
         self.assertEqual(len(operations), 2)
         self.assertEqual(operations[0].operation_type, 'Buy')
         self.assertEqual(operations[1].operation_type, 'BuyCard')
-        self.assertNotEqual(operations[0].payment, 0)
-        self.assertNotEqual(operations[1].payment, 0)
+
+        for operation in operations:
+            self.assertNotEqual(operation.payment, 0)
+
+    def test_sell_operations(self):
+        zero_sell = Mock(
+            operation_type='Sell',
+            payment=Decimal('0')
+        )
+        self.portfolio.operations.append(zero_sell)
+
+        operations = self.portfolio.sell_operations()
+
+        self.assertEqual(len(operations), 1)
+        self.assertEqual(operations[0].operation_type, 'Sell')
+
+        for operation in operations:
+            self.assertNotEqual(operation.payment, 0)
 
 
 if __name__ == '__main__':
