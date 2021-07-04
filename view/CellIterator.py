@@ -6,7 +6,6 @@ cell_index_parts = re.compile(r'(\$?)([A-Z]{1,3})(\$?)(\d+)')
 class CellIterator:
     def __init__(self, *args, **kwargs):
         try:
-            # First arg is an int, default to row/col notation.
             if len(kwargs) == 2:
                 self.row = kwargs['row']
                 self.col = kwargs['col']
