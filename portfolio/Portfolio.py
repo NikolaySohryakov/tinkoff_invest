@@ -63,3 +63,12 @@ class Portfolio:
             return operation.operation_type == 'PayOut'
 
         return list(filter(filter_pay_out, self.operations))
+
+    def buy_operations(self) -> [Operation]:
+        def filter_buy(operation):
+            is_buy_operation = (operation.operation_type == 'Buy') or (operation.operation_type == 'BuyCard')
+            is_zero_operation = operation.payment == 0
+
+            return is_buy_operation and not is_zero_operation
+
+        return list(filter(filter_buy, self.operations))
