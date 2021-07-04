@@ -1,5 +1,5 @@
 import unittest
-from view.XlsXRenderer import CellIterator
+from view.XlsxRenderer import CellIterator
 
 
 class CellIteratorTests(unittest.TestCase):
