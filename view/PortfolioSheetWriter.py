@@ -29,7 +29,7 @@ class PortfolioSheetWriter:
         currency_cell = CellIterator('A2')
         rate_cell = CellIterator('B2')
 
-        for currency, rate in portfolio.currency_prices.items():
+        for currency, rate in portfolio.market_rates.items():
             if currency == 'RUB':
                 continue
 

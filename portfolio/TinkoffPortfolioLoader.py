@@ -57,9 +57,9 @@ class TinkoffPortfolioLoader:
                 orderbook = self.client.get_market_orderbook(figi, 20)
                 last_price = orderbook.payload.last_price
 
-                portfolio.currency_prices[currency] = last_price
+                portfolio.market_rates[currency] = last_price
             except KeyError:
                 print('Skipping currency:' + currency)
                 pass
 
-        portfolio.currency_prices['RUB'] = Decimal('1')
+        portfolio.market_rates['RUB'] = Decimal('1')

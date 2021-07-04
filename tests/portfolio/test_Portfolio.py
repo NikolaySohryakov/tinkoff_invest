@@ -139,7 +139,7 @@ class PortfolioTests(unittest.TestCase):
 
     def test_convert_currency_usd_to_rub(self):
         money_amount = MoneyAmount(value=Decimal(10), currency='USD')
-        self.portfolio.currency_prices = {'USD': Decimal('73.3')}
+        self.portfolio.market_rates = {'USD': Decimal('73.3')}
         result = self.portfolio.convert(money_amount, 'RUB')
 
         self.assertEqual('RUB', result.currency)

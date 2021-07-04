@@ -87,7 +87,7 @@ class Operation:
 class Portfolio:
     positions: [PortfolioPosition] = []
     operations: [Operation] = []
-    currency_prices: {} = {}
+    market_rates: {} = {}
 
     def pay_in_operations(self) -> [Operation]:
         def filter_pay_in(operation):
@@ -204,7 +204,7 @@ class Portfolio:
         return result
 
     def convert(self, money_amount, target_currency):
-        price = self.currency_prices[money_amount.currency]
+        price = self.market_rates[money_amount.currency]
         value = money_amount.value * price
 
         return MoneyAmount(value=value, currency=target_currency)
