@@ -1,6 +1,7 @@
 from datetime import date
 from datetime import time
 from datetime import datetime
+from decimal import Decimal
 
 import mappers
 from portfolio import Portfolio
@@ -60,3 +61,5 @@ class TinkoffPortfolioLoader:
             except KeyError:
                 print('Skipping currency:' + currency)
                 pass
+
+        portfolio.currency_prices['RUB'] = Decimal('1')

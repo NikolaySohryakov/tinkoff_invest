@@ -61,7 +61,8 @@ class TinkoffPortfolioLoaderTests(unittest.TestCase):
         self.assertEqual(2, self.client.get_market_orderbook.call_count)
         self.assertEqual(portfolio.currency_prices, {
             'USD': Decimal('73.2'),
-            'EUR': Decimal('80.0')
+            'EUR': Decimal('80.0'),
+            'RUB': Decimal(1)
         })
 
 

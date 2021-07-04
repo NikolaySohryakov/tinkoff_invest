@@ -20,7 +20,8 @@ class PortfolioSheetWriter:
         self.__write_positions(start_cell=first_position_cell, positions=portfolio.positions)
 
     def __write_headers(self, start_cell):
-        headers = ['Name', 'Ticker', 'Balance', 'Currency', 'Average Price']
+        headers = ['Name', 'Ticker', 'Balance', 'Currency', 'Average Price', 'Buy', 'Expected Yield', 'Market Price',
+                   '% change', 'Market Value']
 
         for header in headers:
             self.worksheet.write(start_cell.__str__(), header, self.formats.headers['PORTFOLIO'])
@@ -35,7 +36,12 @@ class PortfolioSheetWriter:
                 (position.ticker, None),
                 (position.balance, None),
                 (position.average_price.currency, None),
-                (position.average_price.value, self.formats.currency[position.average_price.currency])
+                (position.average_price.value, self.formats.currency[position.average_price.currency]),
+                (position.average_buy(), self.formats.currency[position.average_price.currency]),
+                (position.expected_yield.value, self.formats.currency[position.average_price.currency]),
+                (position.market_price(), self.formats.currency[position.average_price.currency]),
+                (position.change_percent(), None),
+                (position.market_value(), self.formats.currency[position.average_price.currency])
             ]
 
             for col_num, value in enumerate(values):

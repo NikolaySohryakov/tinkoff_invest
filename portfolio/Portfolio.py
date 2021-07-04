@@ -29,6 +29,36 @@ class PortfolioPosition:
     lots: int
     average_price: Optional[MoneyAmount]
     average_price_no_nkd: Optional[MoneyAmount]
+    expected_yield: Optional[MoneyAmount]
+
+    def average_buy(self):
+        """Total average buy."""
+        if self.average_price is None:
+            return Decimal(0)
+
+        return self.average_price.value * self.balance
+
+    def market_price(self):
+        if self.average_price is None:
+            return Decimal(0)
+
+        if self.expected_yield is None:
+            return self.average_price
+
+        yield_per_item = Decimal(self.expected_yield.value / self.balance)
+
+        return self.average_price.value + yield_per_item
+
+    def market_value(self):
+        return self.market_price() * self.balance
+
+    def change_percent(self):
+        if self.average_price is None:
+            return Decimal(0)
+
+        market_price = self.market_price()
+
+        return (market_price * 100 / self.average_price.value - 100).quantize(Decimal('.01'))
 
     def __radd__(self, other):
         return other + self.average_price_no_nkd.value

@@ -9,12 +9,16 @@ class PortfolioPositionMapper:
     def map(tinkoff_portfolio_position: TinkoffPortfolioPosition) -> PortfolioPosition:
         average_price = None
         average_price_no_nkd = None
+        expected_yield = None
 
         if tinkoff_portfolio_position.average_position_price is not None:
             average_price = MoneyAmountMapper.map(tinkoff_portfolio_position.average_position_price)
 
         if tinkoff_portfolio_position.average_position_price_no_nkd is not None:
             average_price_no_nkd = MoneyAmountMapper.map(tinkoff_portfolio_position.average_position_price_no_nkd)
+
+        if tinkoff_portfolio_position.expected_yield is not None:
+            expected_yield = MoneyAmountMapper.map(tinkoff_portfolio_position.expected_yield)
 
         return PortfolioPosition(figi=tinkoff_portfolio_position.figi,
                                  isin=tinkoff_portfolio_position.isin,
@@ -23,5 +27,6 @@ class PortfolioPositionMapper:
                                  balance=tinkoff_portfolio_position.balance,
                                  lots=tinkoff_portfolio_position.lots,
                                  average_price=average_price,
-                                 average_price_no_nkd=average_price_no_nkd
+                                 average_price_no_nkd=average_price_no_nkd,
+                                 expected_yield=expected_yield
                                  )
