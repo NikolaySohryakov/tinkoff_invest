@@ -31,8 +31,13 @@ class PortfolioTests(unittest.TestCase):
     def test_pay_out_operations(self):
         operations = self.portfolio.pay_out_operations()
 
-        self.assertEqual(len(operations), 1)
+        self.assertEqual(len(operations), 2)
         self.assertEqual(operations[0].operation_type, 'PayOut')
+
+    def test_total_pay_out(self):
+        result = self.portfolio.total_pay_out()
+        self.assertEqual(result.currency, 'RUB')
+        self.assertEqual(result.value, Decimal('-466.5'))
 
     def test_buy_operations(self):
         zero_buy = Mock(

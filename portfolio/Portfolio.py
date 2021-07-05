@@ -104,18 +104,28 @@ class Portfolio:
     def total_pay_in(self):
         pay_in_operations = self.pay_in_operations()
 
-        result = Decimal(0)
+        result = MoneyAmount(value=Decimal(0), currency='RUB')
 
         for operation in pay_in_operations:
-            result += self.convert(MoneyAmount(value=operation.payment, currency=operation.currency), 'RUB').value
+            result += self.convert(MoneyAmount(value=operation.payment, currency=operation.currency), 'RUB')
 
-        return MoneyAmount(value=result, currency='RUB')
+        return result
 
     def pay_out_operations(self) -> [Operation]:
         def filter_pay_out(operation):
             return operation.operation_type == 'PayOut'
 
         return list(filter(filter_pay_out, self.operations))
+
+    def total_pay_out(self):
+        operations = self.pay_out_operations()
+
+        result = MoneyAmount(value=Decimal(0), currency='RUB')
+
+        for operation in operations:
+            result += self.convert(MoneyAmount(value=operation.payment, currency=operation.currency), 'RUB')
+
+        return result
 
     def buy_operations(self) -> [Operation]:
         def filter_buy(operation):

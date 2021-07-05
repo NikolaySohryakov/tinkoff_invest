@@ -37,7 +37,14 @@ operations = [
         currency='RUB'
     ),
     Mock(
-        operation_type='PayOut'
+        operation_type='PayOut',
+        payment=Decimal('-100'),
+        currency='RUB'
+    ),
+    Mock(
+        operation_type='PayOut',
+        payment=Decimal('-5'),
+        currency='USD'
     ),
     Mock(
         operation_type='Tax'
