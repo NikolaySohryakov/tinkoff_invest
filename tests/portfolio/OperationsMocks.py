@@ -84,10 +84,24 @@ operations = [
         operation_type='PartRepayment'
     ),
     Mock(
-        operation_type='Coupon'
+        operation_type='Coupon',
+        payment=Decimal('10'),
+        currency='RUB'
     ),
     Mock(
-        operation_type='Dividend'
+        operation_type='Coupon',
+        payment=Decimal('25'),
+        currency='USD'
+    ),
+    Mock(
+        operation_type='Dividend',
+        payment=Decimal('25'),
+        currency='USD'
+    ),
+    Mock(
+        operation_type='Dividend',
+        payment=Decimal('2'),
+        currency='RUB'
     ),
     Mock(
         operation_type='SecurityIn'

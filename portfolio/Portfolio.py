@@ -184,11 +184,37 @@ class Portfolio:
 
         return list(filter(filter_coupon, self.operations))
 
+    def coupons_total(self):
+        operations = self.coupons()
+
+        result = MoneyAmount(value=Decimal(0), currency='RUB')
+
+        for operation in operations:
+            result += self.convert(MoneyAmount(value=operation.payment, currency=operation.currency), 'RUB')
+
+        return result
+
     def dividends(self) -> [Operation]:
         def filter_dividends(operation):
             return operation.operation_type == 'Dividend'
 
         return list(filter(filter_dividends, self.operations))
+
+    def dividends_total(self):
+        operations = self.dividends()
+
+        result = MoneyAmount(value=Decimal(0), currency='RUB')
+
+        for operation in operations:
+            result += self.convert(MoneyAmount(value=operation.payment, currency=operation.currency), 'RUB')
+
+        return result
+
+    def income_total(self):
+        coupons = self.coupons_total()
+        dividends = self.dividends_total()
+
+        return coupons + dividends
 
     def broker_commissions(self) -> [Operation]:
         def filter_broker_commissions(operation):

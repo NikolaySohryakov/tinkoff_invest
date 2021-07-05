@@ -93,14 +93,32 @@ class PortfolioTests(unittest.TestCase):
     def test_coupons(self):
         operations = self.portfolio.coupons()
 
-        self.assertEqual(len(operations), 1)
+        self.assertEqual(len(operations), 2)
         self.assertEqual(operations[0].operation_type, 'Coupon')
+
+    def test_coupons_total(self):
+        result = self.portfolio.coupons_total()
+
+        self.assertEqual(result.currency, 'RUB')
+        self.assertEqual(result.value, Decimal('1842.5'))
 
     def test_dividends(self):
         operations = self.portfolio.dividends()
 
-        self.assertEqual(len(operations), 1)
+        self.assertEqual(len(operations), 2)
         self.assertEqual(operations[0].operation_type, 'Dividend')
+
+    def test_dividends_total(self):
+        result = self.portfolio.dividends_total()
+
+        self.assertEqual(result.currency, 'RUB')
+        self.assertEqual(result.value, Decimal('1834.5'))
+
+    def test_income_total(self):
+        result = self.portfolio.income_total()
+
+        self.assertEqual(result.currency, 'RUB')
+        self.assertEqual(result.value, Decimal('3677.0'))
 
     def test_broker_commissions(self):
         operations = self.portfolio.broker_commissions()
