@@ -24,6 +24,12 @@ class MoneyAmount:
 
         return MoneyAmount(value=other.value + self.value, currency=self.currency)
 
+    def __sub__(self, other):
+        if other.currency != self.currency:
+            raise ValueError
+
+        return MoneyAmount(value=self.value - other.value, currency=self.currency)
+
 
 @dataclass
 class PortfolioPosition:
@@ -127,6 +133,13 @@ class Portfolio:
 
         return result
 
+    def adjusted_pay_in(self) -> MoneyAmount:
+        pay_in = self.total_pay_in()
+        pay_out = self.total_pay_out()
+
+        # sum because pay_out is negative
+        return pay_in + pay_out
+
     def buy_operations(self) -> [Operation]:
         def filter_buy(operation):
             is_buy_operation = (operation.operation_type == 'Buy') or (operation.operation_type == 'BuyCard')
@@ -136,6 +149,16 @@ class Portfolio:
 
         return list(filter(filter_buy, self.operations))
 
+    def buy_total(self) -> MoneyAmount:
+        operations = self.buy_operations()
+
+        result = MoneyAmount(value=Decimal(0), currency='RUB')
+
+        for operation in operations:
+            result += self.convert(MoneyAmount(value=operation.payment, currency=operation.currency), 'RUB')
+
+        return result
+
     def sell_operations(self) -> [Operation]:
         def filter_sell(operation):
             is_sell_operation = operation.operation_type == 'Sell'
@@ -144,6 +167,16 @@ class Portfolio:
             return is_sell_operation and not is_zero_operation
 
         return list(filter(filter_sell, self.operations))
+
+    def sell_total(self):
+        operations = self.sell_operations()
+
+        result = MoneyAmount(value=Decimal(0), currency='RUB')
+
+        for operation in operations:
+            result += self.convert(MoneyAmount(value=operation.payment, currency=operation.currency), 'RUB')
+
+        return result
 
     def coupons(self) -> [Operation]:
         def filter_coupon(operation):

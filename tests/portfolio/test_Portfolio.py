@@ -39,6 +39,11 @@ class PortfolioTests(unittest.TestCase):
         self.assertEqual(result.currency, 'RUB')
         self.assertEqual(result.value, Decimal('-466.5'))
 
+    def test_adjusted_pay_in(self):
+        result = self.portfolio.adjusted_pay_in()
+        self.assertEqual(result.currency, 'RUB')
+        self.assertEqual(result.value, Decimal('366.5'))
+
     def test_buy_operations(self):
         zero_buy = Mock(
             operation_type='Buy',
@@ -53,12 +58,16 @@ class PortfolioTests(unittest.TestCase):
 
         operations = self.portfolio.buy_operations()
 
-        self.assertEqual(len(operations), 2)
-        self.assertEqual(operations[0].operation_type, 'Buy')
-        self.assertEqual(operations[1].operation_type, 'BuyCard')
+        self.assertEqual(len(operations), 3)
 
         for operation in operations:
             self.assertNotEqual(operation.payment, 0)
+
+    def test_buy_total(self):
+        result = self.portfolio.buy_total()
+
+        self.assertEqual(result.currency, 'RUB')
+        self.assertEqual(result.value, Decimal('-7503.3'))
 
     def test_sell_operations(self):
         zero_sell = Mock(
@@ -69,11 +78,17 @@ class PortfolioTests(unittest.TestCase):
 
         operations = self.portfolio.sell_operations()
 
-        self.assertEqual(len(operations), 1)
+        self.assertEqual(len(operations), 2)
         self.assertEqual(operations[0].operation_type, 'Sell')
 
         for operation in operations:
             self.assertNotEqual(operation.payment, 0)
+
+    def test_sell_total(self):
+        result = self.portfolio.sell_total()
+
+        self.assertEqual(result.currency, 'RUB')
+        self.assertEqual(result.value, Decimal('7340'))
 
     def test_coupons(self):
         operations = self.portfolio.coupons()

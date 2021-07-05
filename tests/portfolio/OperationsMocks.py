@@ -3,13 +3,29 @@ from unittest.mock import Mock
 
 operations = [
     Mock(
-        operation_type='Buy'
+        operation_type='Buy',
+        payment=Decimal('-100'),
+        currency='RUB'
     ),
     Mock(
-        operation_type='BuyCard'
+        operation_type='Buy',
+        payment=Decimal('-100'),
+        currency='USD'
     ),
     Mock(
-        operation_type='Sell'
+        operation_type='BuyCard',
+        payment=Decimal('-1'),
+        currency='USD'
+    ),
+    Mock(
+        operation_type='Sell',
+        payment=Decimal('100'),
+        currency='USD'
+    ),
+    Mock(
+        operation_type='Sell',
+        payment=Decimal('10'),
+        currency='RUB'
     ),
     Mock(
         operation_type='BrokerCommission'

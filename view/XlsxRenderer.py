@@ -83,6 +83,10 @@ class XlsxRenderer:
         styles = {
             'BOLD': self.workbook.add_format({
                 'bold': True
+            }),
+            'BOLD_ALIGNMENT_RIGHT': self.workbook.add_format({
+                'bold': True,
+                'align': 'right'
             })
         }
 

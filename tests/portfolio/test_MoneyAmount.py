@@ -24,7 +24,23 @@ class MoneyAmountTests(unittest.TestCase):
         money_amount2 = MoneyAmount(value=Decimal('20'), currency='RUB')
 
         with self.assertRaises(ValueError):
-            result = money_amount1 + money_amount2
+            money_amount1 + money_amount2
+
+    def test_sub(self):
+        money_amount1 = MoneyAmount(value=Decimal('20'), currency='USD')
+        money_amount2 = MoneyAmount(value=Decimal('10'), currency='USD')
+
+        result = money_amount1 - money_amount2
+
+        self.assertEqual(Decimal(10), result.value)
+        self.assertEqual('USD', result.currency)
+
+    def test_sub_different_currencies(self):
+        money_amount1 = MoneyAmount(value=Decimal('10'), currency='USD')
+        money_amount2 = MoneyAmount(value=Decimal('20'), currency='RUB')
+
+        with self.assertRaises(ValueError):
+            money_amount1 - money_amount2
 
 
 if __name__ == '__main__':

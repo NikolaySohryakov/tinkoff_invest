@@ -18,7 +18,13 @@ class PortfolioSheetWriter:
 
         self.__write_market_rates(portfolio)
         self.__write_headers(start_cell=header_cell)
-        self.__write_positions(start_cell=first_position_cell, portfolio=portfolio)
+        last_cell = self.__write_positions(start_cell=first_position_cell, portfolio=portfolio)
+
+        last_cell.next_row()
+        last_cell.next_row()
+        last_cell.col = 'A'
+
+        self.__write_summary(start_cell = last_cell, portfolio=portfolio)
 
     def __write_market_rates(self, portfolio):
         self.worksheet.merge_range(0, 0,
@@ -71,3 +77,12 @@ class PortfolioSheetWriter:
                 self.worksheet.write(cell.row_index(), cell.col_index() + col_num, value[0], value[1])
 
             cell.next_row()
+
+        return cell
+
+    def __write_summary(self, start_cell, portfolio: Portfolio):
+        cell = copy(start_cell)
+
+        self.worksheet.write(cell.__str__(), 'Pay In - Pay Out', self.formats.styles['BOLD_ALIGNMENT_RIGHT'])
+        cell.next_col()
+        self.worksheet.write(cell.__str__(), portfolio.adjusted_pay_in().value)
