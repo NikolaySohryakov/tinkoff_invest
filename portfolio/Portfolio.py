@@ -222,11 +222,31 @@ class Portfolio:
 
         return list(filter(filter_broker_commissions, self.operations))
 
+    def total_broker_commissions(self):
+        operations = self.broker_commissions()
+
+        result = MoneyAmount(value=Decimal(0), currency='RUB')
+
+        for operation in operations:
+            result += self.convert(MoneyAmount(value=operation.payment, currency=operation.currency), 'RUB')
+
+        return result
+
     def exchange_commissions(self) -> [Operation]:
         def filter_exchange_commissions(operation):
             return operation.operation_type == 'ExchangeCommission'
 
         return list(filter(filter_exchange_commissions, self.operations))
+
+    def total_exchange_commissions(self):
+        operations = self.exchange_commissions()
+
+        result = MoneyAmount(value=Decimal(0), currency='RUB')
+
+        for operation in operations:
+            result += self.convert(MoneyAmount(value=operation.payment, currency=operation.currency), 'RUB')
+
+        return result
 
     def service_commissions(self) -> [Operation]:
         def filter_service_commissions(operation):
@@ -234,17 +254,56 @@ class Portfolio:
 
         return list(filter(filter_service_commissions, self.operations))
 
+    def total_service_commissions(self):
+        operations = self.service_commissions()
+
+        result = MoneyAmount(value=Decimal(0), currency='RUB')
+
+        for operation in operations:
+            result += self.convert(MoneyAmount(value=operation.payment, currency=operation.currency), 'RUB')
+
+        return result
+
     def margin_commissions(self) -> [Operation]:
         def filter_margin_commissions(operation):
             return operation.operation_type == 'MarginCommission'
 
         return list(filter(filter_margin_commissions, self.operations))
 
+    def total_margin_commissions(self):
+        operations = self.margin_commissions()
+
+        result = MoneyAmount(value=Decimal(0), currency='RUB')
+
+        for operation in operations:
+            result += self.convert(MoneyAmount(value=operation.payment, currency=operation.currency), 'RUB')
+
+        return result
+
     def other_commissions(self) -> [Operation]:
         def filter_other_commissions(operation):
             return operation.operation_type == 'OtherCommission'
 
         return list(filter(filter_other_commissions, self.operations))
+
+    def total_other_commissions(self):
+        operations = self.other_commissions()
+
+        result = MoneyAmount(value=Decimal(0), currency='RUB')
+
+        for operation in operations:
+            result += self.convert(MoneyAmount(value=operation.payment, currency=operation.currency), 'RUB')
+
+        return result
+
+    def total_all_commissions(self):
+        broker = self.total_broker_commissions()
+        service = self.total_service_commissions()
+        exchange = self.total_exchange_commissions()
+        margin = self.total_margin_commissions()
+        other = self.total_other_commissions()
+
+        return broker + service + exchange + margin + other
 
     def tax_common(self) -> [Operation]:
         def filter_tax_common(operation):

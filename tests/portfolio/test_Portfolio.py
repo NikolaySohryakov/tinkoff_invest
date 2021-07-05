@@ -123,20 +123,38 @@ class PortfolioTests(unittest.TestCase):
     def test_broker_commissions(self):
         operations = self.portfolio.broker_commissions()
 
-        self.assertEqual(len(operations), 1)
+        self.assertEqual(len(operations), 2)
         self.assertEqual(operations[0].operation_type, 'BrokerCommission')
+
+    def test_total_broker_commissions(self):
+        result = self.portfolio.total_broker_commissions()
+
+        self.assertEqual(result.currency, 'RUB')
+        self.assertEqual(result.value, Decimal('-91.875'))
 
     def test_exchange_commissions(self):
         operations = self.portfolio.exchange_commissions()
 
-        self.assertEqual(len(operations), 1)
+        self.assertEqual(len(operations), 2)
         self.assertEqual(operations[0].operation_type, 'ExchangeCommission')
+
+    def test_total_exchange_commissions(self):
+        result = self.portfolio.total_exchange_commissions()
+
+        self.assertEqual(result.currency, 'RUB')
+        self.assertEqual(result.value, Decimal('-20.575'))
 
     def test_service_commissions(self):
         operations = self.portfolio.service_commissions()
 
-        self.assertEqual(len(operations), 1)
+        self.assertEqual(len(operations), 2)
         self.assertEqual(operations[0].operation_type, 'ServiceCommission')
+
+    def test_total_service_commissions(self):
+        result = self.portfolio.total_service_commissions()
+
+        self.assertEqual(result.currency, 'RUB')
+        self.assertEqual(result.value, Decimal('-30.063'))
 
     def test_margin_commissions(self):
         operations = self.portfolio.margin_commissions()
@@ -144,11 +162,29 @@ class PortfolioTests(unittest.TestCase):
         self.assertEqual(len(operations), 1)
         self.assertEqual(operations[0].operation_type, 'MarginCommission')
 
+    def test_total_margin_commissions(self):
+        result = self.portfolio.total_margin_commissions()
+
+        self.assertEqual(result.currency, 'RUB')
+        self.assertEqual(result.value, Decimal('-15.703'))
+
     def test_other_commissions(self):
         operations = self.portfolio.other_commissions()
 
         self.assertEqual(len(operations), 1)
         self.assertEqual(operations[0].operation_type, 'OtherCommission')
+
+    def test_total_other_commissions(self):
+        result = self.portfolio.total_other_commissions()
+
+        self.assertEqual(result.currency, 'RUB')
+        self.assertEqual(result.value, Decimal('-10.473'))
+
+    def test_total_all_commissions(self):
+        result = self.portfolio.total_all_commissions()
+
+        self.assertEqual(result.currency, 'RUB')
+        self.assertEqual(result.value, Decimal('-168.689'))
 
     def test_tax_common(self):
         operations = self.portfolio.tax_common()

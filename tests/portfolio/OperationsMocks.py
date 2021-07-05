@@ -28,19 +28,54 @@ operations = [
         currency='RUB'
     ),
     Mock(
-        operation_type='BrokerCommission'
+        operation_type='BrokerCommission',
+        payment=Decimal('-1.25'),
+        currency='USD'
     ),
     Mock(
-        operation_type='ExchangeCommission'
+        operation_type='BrokerCommission',
+        payment=Decimal('-0.25'),
+        currency='RUB'
     ),
     Mock(
-        operation_type='ServiceCommission'
+        operation_type='ExchangeCommission',
+        payment=Decimal('-0.25'),
+        currency='USD'
     ),
     Mock(
-        operation_type='MarginCommission'
+        operation_type='ExchangeCommission',
+        payment=Decimal('-2.25'),
+        currency='RUB'
     ),
     Mock(
-        operation_type='OtherCommission'
+        operation_type='ServiceCommission',
+        payment=Decimal('-0.01'),
+        currency='RUB'
+    ),
+    Mock(
+        operation_type='ServiceCommission',
+        payment=Decimal('-0.41'),
+        currency='USD'
+    ),
+    Mock(
+        operation_type='MarginCommission',
+        payment=Decimal('-0.31'),
+        currency='RUB'
+    ),
+    Mock(
+        operation_type='MarginCommission',
+        payment=Decimal('-0.21'),
+        currency='USD'
+    ),
+    Mock(
+        operation_type='OtherCommission',
+        payment=Decimal('-0.11'),
+        currency='USD'
+    ),
+    Mock(
+        operation_type='OtherCommission',
+        payment=Decimal('-2.41'),
+        currency='RUB'
     ),
     Mock(
         operation_type='PayIn',
