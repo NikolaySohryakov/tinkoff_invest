@@ -83,6 +83,18 @@ class PortfolioSheetWriter:
     def __write_summary(self, start_cell, portfolio: Portfolio):
         cell = copy(start_cell)
 
-        self.worksheet.write(cell.__str__(), 'Pay In - Pay Out', self.formats.styles['BOLD_ALIGNMENT_RIGHT'])
+        rows = [
+            ('Pay In - Pay Out', portfolio.adjusted_pay_in().value, self.formats.currency['RUB']),
+            ('Market Value', portfolio.market_value().value, self.formats.currency['RUB'])
+        ]
+
+        for title, value, cell_format in rows:
+            self.__write_summary_row(cell, title, value, cell_format)
+            cell.next_row()
+
+    def __write_summary_row(self, start_cell, title, value, cell_format=None):
+        cell = copy(start_cell)
+
+        self.worksheet.write(cell.__str__(), title, self.formats.styles['BOLD_ALIGNMENT_RIGHT'])
         cell.next_col()
-        self.worksheet.write(cell.__str__(), portfolio.adjusted_pay_in().value)
+        self.worksheet.write(cell.__str__(), value, cell_format)

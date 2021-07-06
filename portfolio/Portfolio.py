@@ -78,9 +78,6 @@ class PortfolioPosition:
 
         return (market_price.value * 100 / self.average_price.value - 100).quantize(Decimal('.01'))
 
-    def __radd__(self, other):
-        return other + self.average_price_no_nkd.value
-
 
 @dataclass
 class Operation:
@@ -397,6 +394,14 @@ class Portfolio:
         result = sum(items)
 
         return MoneyAmount(value=result, currency='RUB')
+
+    def market_value(self):
+        result = MoneyAmount(value=Decimal(0), currency='RUB')
+
+        for position in self.positions:
+            result += self.convert(position.market_value(), 'RUB')
+
+        return result
 
     def all_portfolio_currencies(self) -> set[str]:
         result = set()

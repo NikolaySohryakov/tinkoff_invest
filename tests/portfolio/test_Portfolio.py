@@ -255,7 +255,7 @@ class PortfolioTests(unittest.TestCase):
     def test_all_portfolio_currencies(self):
         currencies = self.portfolio.all_portfolio_currencies()
 
-        self.assertEqual(currencies, {'USD', 'RUB'})
+        self.assertEqual({'USD', 'RUB'}, currencies)
 
     def test_convert_currency_usd_to_rub(self):
         money_amount = MoneyAmount(value=Decimal(10), currency='USD')
@@ -264,6 +264,12 @@ class PortfolioTests(unittest.TestCase):
 
         self.assertEqual('RUB', result.currency)
         self.assertEqual(Decimal(733), result.value)
+
+    def test_clean_portfolio(self):
+        result = self.portfolio.market_value()
+
+        self.assertEqual('RUB', result.currency)
+        self.assertEqual(Decimal('14412.20'), result.value)
 
 
 if __name__ == '__main__':
