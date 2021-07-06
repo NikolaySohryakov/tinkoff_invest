@@ -159,7 +159,7 @@ class PortfolioTests(unittest.TestCase):
     def test_margin_commissions(self):
         operations = self.portfolio.margin_commissions()
 
-        self.assertEqual(len(operations), 1)
+        self.assertEqual(len(operations), 2)
         self.assertEqual(operations[0].operation_type, 'MarginCommission')
 
     def test_total_margin_commissions(self):
@@ -171,7 +171,7 @@ class PortfolioTests(unittest.TestCase):
     def test_other_commissions(self):
         operations = self.portfolio.other_commissions()
 
-        self.assertEqual(len(operations), 1)
+        self.assertEqual(len(operations), 2)
         self.assertEqual(operations[0].operation_type, 'OtherCommission')
 
     def test_total_other_commissions(self):
