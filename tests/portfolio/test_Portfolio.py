@@ -189,32 +189,68 @@ class PortfolioTests(unittest.TestCase):
     def test_tax_common(self):
         operations = self.portfolio.tax_common()
 
-        self.assertEqual(len(operations), 1)
+        self.assertEqual(len(operations), 2)
         self.assertEqual(operations[0].operation_type, 'Tax')
+
+    def test_tax_common_total(self):
+        result = self.portfolio.tax_common_total()
+
+        self.assertEqual(result.currency, 'RUB')
+        self.assertEqual(result.value, Decimal('-368.5'))
 
     def test_tax_dividend(self):
         operations = self.portfolio.tax_dividend()
 
-        self.assertEqual(len(operations), 1)
+        self.assertEqual(len(operations), 2)
         self.assertEqual(operations[0].operation_type, 'TaxDividend')
+
+    def test_tax_dividend_total(self):
+        result = self.portfolio.tax_dividend_total()
+
+        self.assertEqual(result.currency, 'RUB')
+        self.assertEqual(result.value, Decimal('-242.2'))
 
     def test_tax_coupon(self):
         operations = self.portfolio.tax_coupon()
 
-        self.assertEqual(len(operations), 1)
+        self.assertEqual(len(operations), 2)
         self.assertEqual(operations[0].operation_type, 'TaxCoupon')
+
+    def test_tax_coupon_total(self):
+        result = self.portfolio.tax_coupon_total()
+
+        self.assertEqual(result.currency, 'RUB')
+        self.assertEqual(result.value, Decimal('-24.29'))
 
     def test_tax_lucre(self):
         operations = self.portfolio.tax_lucre()
 
-        self.assertEqual(len(operations), 1)
+        self.assertEqual(len(operations), 2)
         self.assertEqual(operations[0].operation_type, 'TaxLucre')
+
+    def test_tax_lucre_total(self):
+        result = self.portfolio.tax_lucre_total()
+
+        self.assertEqual(result.currency, 'RUB')
+        self.assertEqual(result.value, Decimal('-26.86'))
 
     def test_tax_back(self):
         operations = self.portfolio.tax_back()
 
-        self.assertEqual(len(operations), 1)
+        self.assertEqual(len(operations), 2)
         self.assertEqual(operations[0].operation_type, 'TaxBack')
+
+    def test_tax_back_total(self):
+        result = self.portfolio.tax_back_total()
+
+        self.assertEqual(result.currency, 'RUB')
+        self.assertEqual(result.value, Decimal('-466.1'))
+
+    def test_tax_total(self):
+        result = self.portfolio.tax_total()
+
+        self.assertEqual(result.currency, 'RUB')
+        self.assertEqual(result.value, Decimal('-1127.95'))
 
     def test_all_portfolio_currencies(self):
         currencies = self.portfolio.all_portfolio_currencies()

@@ -311,11 +311,31 @@ class Portfolio:
 
         return list(filter(filter_tax_common, self.operations))
 
+    def tax_common_total(self):
+        operations = self.tax_common()
+
+        result = MoneyAmount(value=Decimal(0), currency='RUB')
+
+        for operation in operations:
+            result += self.convert(MoneyAmount(value=operation.payment, currency=operation.currency), 'RUB')
+
+        return result
+
     def tax_dividend(self) -> [Operation]:
         def filter_tax_dividend(operation):
             return operation.operation_type == 'TaxDividend'
 
         return list(filter(filter_tax_dividend, self.operations))
+
+    def tax_dividend_total(self):
+        operations = self.tax_dividend()
+
+        result = MoneyAmount(value=Decimal(0), currency='RUB')
+
+        for operation in operations:
+            result += self.convert(MoneyAmount(value=operation.payment, currency=operation.currency), 'RUB')
+
+        return result
 
     def tax_coupon(self) -> [Operation]:
         def filter_tax_coupon(operation):
@@ -323,17 +343,60 @@ class Portfolio:
 
         return list(filter(filter_tax_coupon, self.operations))
 
+    def tax_coupon_total(self):
+        operations = self.tax_coupon()
+
+        result = MoneyAmount(value=Decimal(0), currency='RUB')
+
+        for operation in operations:
+            result += self.convert(MoneyAmount(value=operation.payment, currency=operation.currency), 'RUB')
+
+        return result
+
     def tax_lucre(self) -> [Operation]:
         def filter_tax_lucre(operation):
             return operation.operation_type == 'TaxLucre'
 
         return list(filter(filter_tax_lucre, self.operations))
 
+    def tax_lucre_total(self):
+        operations = self.tax_lucre()
+
+        result = MoneyAmount(value=Decimal(0), currency='RUB')
+
+        for operation in operations:
+            result += self.convert(MoneyAmount(value=operation.payment, currency=operation.currency), 'RUB')
+
+        return result
+
     def tax_back(self) -> [Operation]:
         def filter_tax_back(operation):
             return operation.operation_type == 'TaxBack'
 
         return list(filter(filter_tax_back, self.operations))
+
+    def tax_back_total(self):
+        operations = self.tax_back()
+
+        result = MoneyAmount(value=Decimal(0), currency='RUB')
+
+        for operation in operations:
+            result += self.convert(MoneyAmount(value=operation.payment, currency=operation.currency), 'RUB')
+
+        return result
+
+    def tax_total(self):
+        items = [
+            self.tax_common_total().value,
+            self.tax_dividend_total().value,
+            self.tax_coupon_total().value,
+            self.tax_lucre_total().value,
+            self.tax_back_total().value
+        ]
+
+        result = sum(items)
+
+        return MoneyAmount(value=result, currency='RUB')
 
     def all_portfolio_currencies(self) -> set[str]:
         result = set()

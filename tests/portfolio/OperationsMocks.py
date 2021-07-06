@@ -98,19 +98,54 @@ operations = [
         currency='USD'
     ),
     Mock(
-        operation_type='Tax'
+        operation_type='Tax',
+        payment=Decimal('-5'),
+        currency='USD'
     ),
     Mock(
-        operation_type='TaxLucre'
+        operation_type='Tax',
+        payment=Decimal('-2'),
+        currency='RUB'
     ),
     Mock(
-        operation_type='TaxDividend'
+        operation_type='TaxLucre',
+        payment=Decimal('-12.2'),
+        currency='RUB'
     ),
     Mock(
-        operation_type='TaxCoupon'
+        operation_type='TaxLucre',
+        payment=Decimal('-0.2'),
+        currency='USD'
     ),
     Mock(
-        operation_type='TaxBack'
+        operation_type='TaxDividend',
+        payment=Decimal('-22.3'),
+        currency='RUB'
+    ),
+    Mock(
+        operation_type='TaxDividend',
+        payment=Decimal('-3'),
+        currency='USD'
+    ),
+    Mock(
+        operation_type='TaxCoupon',
+        payment=Decimal('-0.3'),
+        currency='USD'
+    ),
+    Mock(
+        operation_type='TaxCoupon',
+        payment=Decimal('-2.3'),
+        currency='RUB'
+    ),
+    Mock(
+        operation_type='TaxBack',
+        payment=Decimal('-26.3'),
+        currency='RUB'
+    ),
+    Mock(
+        operation_type='TaxBack',
+        payment=Decimal('-6'),
+        currency='USD'
     ),
     Mock(
         operation_type='Repayment'
