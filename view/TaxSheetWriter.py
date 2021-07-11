@@ -28,6 +28,12 @@ class TaxSheetWriter:
         next_cell_index = max(indices) + 3
         self.__write_summary(CellIterator(col='A', row=next_cell_index), portfolio)
 
+        self.worksheet.set_column('A:B', 18)
+        self.worksheet.set_column('D:E', 18)
+        self.worksheet.set_column('G:H', 18)
+        self.worksheet.set_column('J:K', 18)
+        self.worksheet.set_column('M:N', 18)
+
     def __write_tax_dividend(self, portfolio: Portfolio):
         start_cell = CellIterator('A1')
         return self.__write_operations(start_cell=start_cell,
@@ -111,7 +117,7 @@ class TaxSheetWriter:
             dates.next_row()
             values.next_row()
 
-            self.worksheet.write(dates.__str__(), operation.date, self.formats.dates['FULL'])
+            self.worksheet.write_datetime(dates.__str__(), operation.date, self.formats.dates['FULL'])
             self.worksheet.write(values.__str__(), operation.payment, self.formats.currency[operation.currency])
 
         return dates

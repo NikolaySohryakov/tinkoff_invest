@@ -70,13 +70,14 @@ class XlsxRenderer:
             }),
             'OPERATIONS_GROUP': self.workbook.add_format({
                 'bold': True,
+                'bg_color': '#CCCCCC',
                 'align': 'center'
             })
         }
 
         dates = {
             'FULL': self.workbook.add_format({
-                'num_format': 'mmm d yyyy, HH:mm'
+                'num_format': 'dd.mm.yyyy, HH:mm'
             })
         }
 

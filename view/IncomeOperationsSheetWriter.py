@@ -20,6 +20,9 @@ class IncomeOperationsSheetWriter:
         cell = CellIterator(row=last_row+2, col='A')
         self.__write_summary(cell=cell, portfolio=portfolio)
 
+        self.worksheet.set_column('A:B', 18)
+        self.worksheet.set_column('D:E', 18)
+
     def __write_coupons(self, portfolio: Portfolio):
         dates = CellIterator('A1')
         values = CellIterator('B1')
@@ -40,7 +43,7 @@ class IncomeOperationsSheetWriter:
             dates.next_row()
             values.next_row()
 
-            self.worksheet.write(dates.__str__(), operation.date, self.formats.dates['FULL'])
+            self.worksheet.write_datetime(dates.__str__(), operation.date, self.formats.dates['FULL'])
             self.worksheet.write(values.__str__(), operation.payment, self.formats.currency[operation.currency])
 
         return dates
@@ -65,7 +68,7 @@ class IncomeOperationsSheetWriter:
             dates.next_row()
             values.next_row()
 
-            self.worksheet.write(dates.__str__(), operation.date, self.formats.dates['FULL'])
+            self.worksheet.write_datetime(dates.__str__(), operation.date, self.formats.dates['FULL'])
             self.worksheet.write(values.__str__(), operation.payment, self.formats.currency[operation.currency])
 
         return dates

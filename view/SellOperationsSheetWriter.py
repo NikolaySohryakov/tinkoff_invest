@@ -13,6 +13,8 @@ class SellOperationsSheetWriter:
     def write(self, portfolio: Portfolio):
         self.__write_sell(portfolio)
 
+        self.worksheet.set_column('A:B', 16)
+
     def __write_sell(self, portfolio: Portfolio):
         dates = CellIterator('A1')
         values = CellIterator('B1')
@@ -24,7 +26,7 @@ class SellOperationsSheetWriter:
             dates.next_row()
             values.next_row()
 
-            self.worksheet.write(dates.__str__(), operation.date, self.formats.dates['FULL'])
+            self.worksheet.write_datetime(dates.__str__(), operation.date, self.formats.dates['FULL'])
             self.worksheet.write(values.__str__(), operation.payment, self.formats.currency[operation.currency])
 
         dates.next_row()
