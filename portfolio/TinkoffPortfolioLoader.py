@@ -4,9 +4,8 @@ from datetime import datetime
 from decimal import Decimal
 
 import mappers
-from portfolio import Portfolio
-from tinvest import SyncClient as TInvestClient
-
+from portfolio import Portfolio, PortfolioPosition, MoneyAmount
+from tinvest import SyncClient as TInvestClient, CurrencyPosition, Currency
 
 currencies_figi = {
     'USD': 'BBG0013HGFT4',
@@ -28,6 +27,7 @@ class TinkoffPortfolioLoader:
         self.__load_positions(portfolio)
         self.__load_operations(portfolio)
         self.__load_market_exchange_rates(portfolio)
+        self.__load_rub(portfolio)
 
         return portfolio
 
@@ -63,3 +63,23 @@ class TinkoffPortfolioLoader:
                 pass
 
         portfolio.market_rates['RUB'] = Decimal('1')
+
+    def __load_rub(self, portfolio):
+        currencies = self.client.get_portfolio_currencies()
+
+        def rub_filter(position: CurrencyPosition):
+            return position.currency == Currency.rub
+
+        currency_position = list(filter(rub_filter, currencies.payload.currencies))[0]
+
+        portfolio_position = PortfolioPosition(figi="",
+                                               isin=None,
+                                               name="RUB",
+                                               ticker=None,
+                                               balance=currency_position.balance,
+                                               lots=1,
+                                               average_price=MoneyAmount(value=Decimal(1), currency='RUB'),
+                                               average_price_no_nkd=MoneyAmount(value=Decimal(1), currency='RUB'),
+                                               expected_yield=MoneyAmount(value=Decimal(0), currency='RUB'))
+
+        portfolio.positions.append(portfolio_position)

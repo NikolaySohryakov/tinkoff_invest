@@ -3,6 +3,8 @@ from unittest.mock import Mock
 from datetime import date
 import unittest
 
+from tinvest import Currency
+
 from portfolio import TinkoffPortfolioLoader
 from tests.portfolio import TinkoffOperationsMocks, TinkoffPositionsMocks
 
@@ -44,19 +46,41 @@ class TinkoffPortfolioLoaderTests(unittest.TestCase):
 
             return result
 
+        # get_portfolio_currencies
+
+        currencies_positions = [
+            Mock(
+                currency=Currency.rub,
+                balance=Decimal(10)
+            ),
+            Mock(
+                currency=Currency.usd,
+                balance=Decimal(1)
+            )
+        ]
+
+        get_portfolio_currencies_response_attrs = {
+            'status': 'Ok',
+            'payload.currencies': currencies_positions
+        }
+        self.get_portfolio_currencies_response = Mock()
+        self.get_portfolio_currencies_response.configure_mock(**get_portfolio_currencies_response_attrs)
+
         # client
 
         self.client = Mock()
         self.client.get_portfolio.return_value = self.get_portfolio_response
         self.client.get_operations.return_value = self.get_operations_response
         self.client.get_market_orderbook.side_effect = get_market_orderbook_side_effect
+        self.client.get_portfolio_currencies.return_value = self.get_portfolio_currencies_response
 
         self.loader = TinkoffPortfolioLoader(client=self.client, start_date=date(year=2021, month=3, day=3))
 
     def test_load(self):
         portfolio = self.loader.load()
 
-        self.assertEqual(len(portfolio.positions), len(self.get_portfolio_payload_positions))
+        # +1 because RUB added as a standalone position
+        self.assertEqual(len(portfolio.positions), len(self.get_portfolio_payload_positions) + 1)
         self.assertEqual(len(portfolio.operations), len(self.get_operations_payload_operations))
         self.assertEqual(2, self.client.get_market_orderbook.call_count)
         self.assertEqual(portfolio.market_rates, {
