@@ -55,6 +55,7 @@ class PortfolioPosition:
         return MoneyAmount(value=value, currency=self.average_price.currency)
 
     def market_price(self):
+        """Current market price for 1 item"""
         if self.average_price is None:
             return Decimal(0)
 
@@ -67,6 +68,7 @@ class PortfolioPosition:
         return MoneyAmount(value=value, currency=self.average_price.currency)
 
     def market_value(self):
+        """Current total price for all items."""
         market_price = self.market_price()
         value = market_price.value * self.balance
 
@@ -414,6 +416,7 @@ class Portfolio:
         return MoneyAmount(value=result, currency='RUB')
 
     def market_value(self):
+        """Current market value of the entire portfolio in RUB."""
         result = MoneyAmount(value=Decimal(0), currency='RUB')
 
         for position in self.positions:
