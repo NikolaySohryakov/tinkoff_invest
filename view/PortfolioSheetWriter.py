@@ -70,12 +70,6 @@ class PortfolioSheetWriter:
             market_value_rub = portfolio.convert(position.market_value(), 'RUB')
             change_percent = position.change_percent()
 
-            change_percent_format = None
-            if change_percent > 0:
-                change_percent_format = self.formats.styles['GREEN']
-            elif change_percent < 0:
-                change_percent_format = self.formats.styles['RED']
-
             values = [
                 (position.name, None),
                 (position.ticker, None),
@@ -85,7 +79,7 @@ class PortfolioSheetWriter:
                 (average_buy.value, self.formats.currency[average_buy.currency]),
                 (position.expected_yield.value, self.formats.currency[position.average_price.currency]),
                 (market_price.value, self.formats.currency[market_price.currency]),
-                (change_percent, change_percent_format),
+                (change_percent, self.__percent_change_format(change_percent)),
                 (market_value.value, self.formats.currency[market_value.currency]),
                 (market_value_rub.value, self.formats.currency[market_value_rub.currency]),
             ]
@@ -97,12 +91,24 @@ class PortfolioSheetWriter:
 
         return cell
 
+    def __percent_change_format(self, change):
+        change_percent_format = None
+        if change > 0:
+            change_percent_format = self.formats.styles['GREEN']
+        elif change < 0:
+            change_percent_format = self.formats.styles['RED']
+
+        return change_percent_format
+
     def __write_summary(self, start_cell, portfolio: Portfolio):
         cell = copy(start_cell)
 
+        percent_change = portfolio.percent_change()
+
         rows = [
             ('Pay In - Pay Out', portfolio.adjusted_pay_in().value, self.formats.currency['RUB']),
-            ('Market Value', portfolio.market_value().value, self.formats.currency['RUB'])
+            ('Market Value', portfolio.market_value().value, self.formats.currency['RUB']),
+            ('Average % change', portfolio.percent_change(), self.__percent_change_format(percent_change))
         ]
 
         for title, value, cell_format in rows:
