@@ -26,6 +26,18 @@ class PortfolioSheetWriter:
 
         self.__write_summary(start_cell = last_cell, portfolio=portfolio)
 
+        self.worksheet.set_column('A:A', 35)
+        self.worksheet.set_column('B:B', 15)
+        self.worksheet.set_column('C:C', 8)
+        self.worksheet.set_column('D:D', 9)
+        self.worksheet.set_column('E:E', 14)
+        self.worksheet.set_column('F:F', 14)
+        self.worksheet.set_column('G:G', 14)
+        self.worksheet.set_column('H:H', 18)
+        self.worksheet.set_column('I:I', 10)
+        self.worksheet.set_column('J:J', 14)
+        self.worksheet.set_column('K:K', 18)
+
     def __write_market_rates(self, portfolio):
         self.worksheet.merge_range(0, 0,
                                    0, 1,
@@ -39,16 +51,14 @@ class PortfolioSheetWriter:
             if currency == 'RUB':
                 continue
 
-            self.worksheet.write(currency_cell.__str__(), currency)
-            self.worksheet.write(rate_cell.__str__(), rate)
+            self.worksheet.write_string(currency_cell.__str__(), currency)
+            self.worksheet.write_number(rate_cell.__str__(), rate)
 
     def __write_headers(self, start_cell):
         headers = ['Name', 'Ticker', 'Balance', 'Currency', 'Average Price', 'Buy', 'Expected Yield', 'Market Price',
                    '% change', 'Market Value', 'Market Value RUB']
 
-        for header in headers:
-            self.worksheet.write(start_cell.__str__(), header, self.formats.headers['PORTFOLIO'])
-            start_cell.next_col()
+        self.worksheet.write_row(start_cell.__str__(), headers, self.formats.headers['PORTFOLIO'])
 
     def __write_positions(self, start_cell, portfolio: Portfolio):
         cell = copy(start_cell)
@@ -58,17 +68,24 @@ class PortfolioSheetWriter:
             market_price = position.market_price()
             market_value = position.market_value()
             market_value_rub = portfolio.convert(position.market_value(), 'RUB')
+            change_percent = position.change_percent()
+
+            change_percent_format = None
+            if change_percent > 0:
+                change_percent_format = self.formats.styles['GREEN']
+            elif change_percent < 0:
+                change_percent_format = self.formats.styles['RED']
 
             values = [
                 (position.name, None),
                 (position.ticker, None),
                 (position.balance, None),
-                (position.average_price.currency, None),
+                (position.average_price.currency, self.formats.styles["ALIGNMENT_CENTER"]),
                 (position.average_price.value, self.formats.currency[position.average_price.currency]),
                 (average_buy.value, self.formats.currency[average_buy.currency]),
                 (position.expected_yield.value, self.formats.currency[position.average_price.currency]),
                 (market_price.value, self.formats.currency[market_price.currency]),
-                (position.change_percent(), None),
+                (change_percent, change_percent_format),
                 (market_value.value, self.formats.currency[market_value.currency]),
                 (market_value_rub.value, self.formats.currency[market_value_rub.currency]),
             ]

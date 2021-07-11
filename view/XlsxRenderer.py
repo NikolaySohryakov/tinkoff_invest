@@ -53,11 +53,11 @@ class XlsxRenderer:
     def __prepare_formats(self):
         currency = {
             'USD': self.workbook.add_format({
-                'num_format': '$ #,##0.00',
+                'num_format': '#,##0.00 $',
                 'align': 'right'
             }),
             'RUB': self.workbook.add_format({
-                'num_format': 'RUR #,##0.00',
+                'num_format': '#,##0.00 RUR',
                 'align': 'right'
             })
         }
@@ -84,9 +84,18 @@ class XlsxRenderer:
             'BOLD': self.workbook.add_format({
                 'bold': True
             }),
+            'ALIGNMENT_CENTER': self.workbook.add_format({
+                'align': 'center'
+            }),
             'BOLD_ALIGNMENT_RIGHT': self.workbook.add_format({
                 'bold': True,
                 'align': 'right'
+            }),
+            'RED': self.workbook.add_format({
+                'font_color': '#FF0000'
+            }),
+            'GREEN': self.workbook.add_format({
+                'font_color': '#008F00'
             })
         }
 
@@ -94,43 +103,3 @@ class XlsxRenderer:
                                        headers=headers,
                                        dates=dates,
                                        styles=styles)
-
-
-# portfolio = Portfolio()
-# portfolio.positions = [
-#     PortfolioPosition(figi='figi1',
-#                       isin='isin1',
-#                       name='name1',
-#                       ticker='ticker1',
-#                       balance=Decimal('10'),
-#                       lots=10,
-#                       average_price=MoneyAmount(value=Decimal('100.34'),
-#                                                 currency='RUB'),
-#                       average_price_no_nkd=MoneyAmount(value=Decimal('100.02'),
-#                                                        currency='RUB')),
-#     PortfolioPosition(figi='figi1',
-#                       isin='isin1',
-#                       name='name1',
-#                       ticker='ticker1',
-#                       balance=Decimal('15'),
-#                       lots=10,
-#                       average_price=MoneyAmount(value=Decimal('100.23'),
-#                                                 currency='USD'),
-#                       average_price_no_nkd=MoneyAmount(value=Decimal('100.2'),
-#                                                        currency='USD'))
-#
-# ]
-# portfolio.operations = [
-#     Operation(id='id',
-#               figi='figi',
-#               date=datetime.now(),
-#               currency='USD',
-#               payment=Decimal('100.3')),
-#     Operation(id='id1',
-#               figi='figi1',
-#               date=datetime.now(),
-#               currency='RUB',
-#               payment=Decimal('23.5'))
-# ]
-# renderer = XlsxRenderer('/Users/nsohryakov/workspace/tinkoff_parser/view/output.xlsx')
-# renderer.render_portfolio(portfolio)
