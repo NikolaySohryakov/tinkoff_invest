@@ -1,3 +1,4 @@
+from datetime import datetime
 from unittest.mock import Mock
 
 
@@ -9,13 +10,15 @@ def __operation_type(type_) -> Mock:
 
 operations = [
             Mock(
-                operation_type=__operation_type('Buy')
+                operation_type=__operation_type('Buy'),
+                date=datetime(year=2021, month=3, day=3, hour=14, minute=24),
             ),
             Mock(
                 operation_type=__operation_type('BuyCard')
             ),
             Mock(
-                operation_type=__operation_type('Sell')
+                operation_type=__operation_type('Sell'),
+                date=datetime(year=2021, month=3, day=3, hour=17, minute=40),
             ),
             Mock(
                 operation_type=__operation_type('BrokerCommission')

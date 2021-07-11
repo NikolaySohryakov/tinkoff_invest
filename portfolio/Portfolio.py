@@ -117,6 +117,7 @@ class Portfolio:
     positions: [PortfolioPosition] = []
     operations: [Operation] = []
     market_rates: {} = {}
+    exchange_rates: {} = {}
 
     def pay_in_operations(self) -> [Operation]:
         def filter_pay_in(operation):

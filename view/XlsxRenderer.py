@@ -57,7 +57,7 @@ class XlsxRenderer:
                 'align': 'right'
             }),
             'RUB': self.workbook.add_format({
-                'num_format': '#,##0.00 RUR',
+                'num_format': '#,##0.00 RUB',
                 'align': 'right'
             })
         }

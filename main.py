@@ -1,3 +1,4 @@
+from ExchangeRatesProvider import ExchangeRatesProvider
 from portfolio import TinkoffPortfolioLoader
 from datetime import datetime
 from tinvest import SyncClient as TInvestClient
@@ -18,7 +19,7 @@ if __name__ == '__main__':
 
     client = TInvestClient(token=token, use_sandbox=use_sandbox)
 
-    portfolio_loader = TinkoffPortfolioLoader(client=client, start_date=start_date)
+    portfolio_loader = TinkoffPortfolioLoader(client=client, exchange_rates_provider=ExchangeRatesProvider(), start_date=start_date)
     portfolio = portfolio_loader.load()
 
     xlsx_writer = XlsxRenderer('/Users/nsohryakov/workspace/tinkoff_parser/view/output.xlsx')

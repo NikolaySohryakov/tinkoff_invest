@@ -9,6 +9,7 @@ pytest = "*"
 [dev-packages]
 tinvest = "*"
 XlsxWriter = "*"
+pycbrf = "*"
 
 [requires]
 python_version = "3.9"

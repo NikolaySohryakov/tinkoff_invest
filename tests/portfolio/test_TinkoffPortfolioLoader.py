@@ -66,6 +66,14 @@ class TinkoffPortfolioLoaderTests(unittest.TestCase):
         self.get_portfolio_currencies_response = Mock()
         self.get_portfolio_currencies_response.configure_mock(**get_portfolio_currencies_response_attrs)
 
+        # exchange_rates_provider
+
+        self.exchange_rates_provider = Mock()
+        self.exchange_rates_provider.rates.return_value = {
+            'USD': Decimal('73.3'),
+            'EUR': Decimal('88.1')
+        }
+
         # client
 
         self.client = Mock()
@@ -74,7 +82,9 @@ class TinkoffPortfolioLoaderTests(unittest.TestCase):
         self.client.get_market_orderbook.side_effect = get_market_orderbook_side_effect
         self.client.get_portfolio_currencies.return_value = self.get_portfolio_currencies_response
 
-        self.loader = TinkoffPortfolioLoader(client=self.client, start_date=date(year=2021, month=3, day=3))
+        self.loader = TinkoffPortfolioLoader(client=self.client,
+                                             exchange_rates_provider=self.exchange_rates_provider,
+                                             start_date=date(year=2021, month=3, day=3))
 
     def test_load(self):
         portfolio = self.loader.load()
@@ -88,6 +98,7 @@ class TinkoffPortfolioLoaderTests(unittest.TestCase):
             'EUR': Decimal('80.0'),
             'RUB': Decimal(1)
         })
+        self.assertEqual(20, len(portfolio.exchange_rates.items()))
 
 
 if __name__ == '__main__':

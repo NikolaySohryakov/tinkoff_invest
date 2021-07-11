@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "9fae3330f02dfda1b7c60554c13538e8c7d357a3ee6cbbae967b30e7ab0af460"
+            "sha256": "5b623a27a3bb11335fb7e340b9cd8666b9558c183ea24bc33f12e6117debe209"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -33,11 +33,11 @@
         },
         "packaging": {
             "hashes": [
-                "sha256:5b327ac1320dc863dca72f4514ecc086f31186744b84a230374cc1fd776feae5",
-                "sha256:67714da7f7bc052e064859c05c595155bd1ee9f69f76557e21f051443c20947a"
+                "sha256:7dc96269f53a4ccec5c0670940a4281106dd0bb343f47b7471f779df49c2fbe7",
+                "sha256:c86254f9220d55e31cc94d69bade760f0847da8000def4dfe1c6b872fd14ff14"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
-            "version": "==20.9"
+            "markers": "python_version >= '3.6'",
+            "version": "==21.0"
         },
         "pluggy": {
             "hashes": [
@@ -155,6 +155,13 @@
             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'",
             "version": "==4.0.0"
         },
+        "dbf-light": {
+            "hashes": [
+                "sha256:1e06ff6d7627c2ccce3a1c1761576a732dd607edd2c5f5eb1e564a8ed1489698",
+                "sha256:b4ec7552c6738d10102e9c8ecc180e7a5d4c8a02e85673194f49503298d130b5"
+            ],
+            "version": "==1.0.0"
+        },
         "idna": {
             "hashes": [
                 "sha256:b307872f855b18632ce0c21c5e45be78c0ea7ae4c15c828c20788b26921eb3f6",
@@ -205,6 +212,15 @@
             ],
             "markers": "python_version >= '3.6'",
             "version": "==5.1.0"
+        },
+        "pycbrf": {
+            "hashes": [
+                "sha256:0aca6e7f363a1188a8edb2df57e526cf9f782df2b152e8691bac264fc9bb3b00",
+                "sha256:3b74c086dd034c8bfd9cde314a8c87c2f04659adabdd810c39f3990b7bf52700",
+                "sha256:5aa83e886e9f0fcf7c4aff1fd463d130e076800e268386a9797f66308244bebd"
+            ],
+            "index": "pypi",
+            "version": "==1.1.0"
         },
         "pydantic": {
             "hashes": [
@@ -268,11 +284,11 @@
         },
         "xlsxwriter": {
             "hashes": [
-                "sha256:1a7fac99687020e76aa7dd0d7de4b9b576547ed748e5cd91a99d52a6df54ca16",
-                "sha256:641db6e7b4f4982fd407a3f372f45b878766098250d26963e95e50121168cbe2"
+                "sha256:15b65f02f7ecdcfb1f22794b1fcfed8e9a49e8b7414646f90347be5cbf464234",
+                "sha256:791567acccc485ba76e0b84bccced2651981171de5b47d541520416f2f9f93e3"
             ],
             "index": "pypi",
-            "version": "==1.4.3"
+            "version": "==1.4.4"
         },
         "yarl": {
             "hashes": [
