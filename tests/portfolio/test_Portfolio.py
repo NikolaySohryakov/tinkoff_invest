@@ -269,7 +269,12 @@ class PortfolioTests(unittest.TestCase):
         result = self.portfolio.market_value()
 
         self.assertEqual('RUB', result.currency)
-        self.assertEqual(Decimal('14412.20'), result.value)
+        self.assertEqual(Decimal('14422.20'), result.value)
+
+    def test_percent_change(self):
+        result = self.portfolio.percent_change()
+
+        self.assertEqual(Decimal('7.35'), result)
 
 
 if __name__ == '__main__':

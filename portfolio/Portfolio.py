@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 from datetime import datetime
 from decimal import Decimal
@@ -77,6 +79,22 @@ class PortfolioPosition:
         market_price = self.market_price()
 
         return (market_price.value * 100 / self.average_price.value - 100).quantize(Decimal('.01'))
+
+    @property
+    def is_fake_rub(self):
+        return self.name == 'RUB'
+
+    @staticmethod
+    def fake_rub(balance: Decimal) -> PortfolioPosition:
+        return PortfolioPosition(figi="",
+                                 isin=None,
+                                 name="RUB",
+                                 ticker=None,
+                                 balance=balance,
+                                 lots=1,
+                                 average_price=MoneyAmount(value=Decimal(1), currency='RUB'),
+                                 average_price_no_nkd=MoneyAmount(value=Decimal(1), currency='RUB'),
+                                 expected_yield=MoneyAmount(value=Decimal(0), currency='RUB'))
 
 
 @dataclass
@@ -414,6 +432,17 @@ class Portfolio:
             result.add(currency)
 
         return result
+
+    def percent_change(self) -> Decimal:
+        result = Decimal(0)
+        count = 0
+
+        for position in self.positions:
+            if not position.is_fake_rub:
+                result += position.change_percent()
+                count += 1
+
+        return result / count
 
     def convert(self, money_amount, target_currency):
         price = self.market_rates[money_amount.currency]

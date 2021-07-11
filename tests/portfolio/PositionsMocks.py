@@ -36,5 +36,6 @@ positions = [
         average_price=MoneyAmount(value=Decimal('30'), currency='USD'),
         average_price_no_nkd=MoneyAmount(value=Decimal('10'), currency='USD'),
         expected_yield=MoneyAmount(value=Decimal('14'), currency='USD'),
-    )
+    ),
+    PortfolioPosition.fake_rub(Decimal(10))
 ]

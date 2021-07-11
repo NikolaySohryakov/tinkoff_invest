@@ -72,14 +72,6 @@ class TinkoffPortfolioLoader:
 
         currency_position = list(filter(rub_filter, currencies.payload.currencies))[0]
 
-        portfolio_position = PortfolioPosition(figi="",
-                                               isin=None,
-                                               name="RUB",
-                                               ticker=None,
-                                               balance=currency_position.balance,
-                                               lots=1,
-                                               average_price=MoneyAmount(value=Decimal(1), currency='RUB'),
-                                               average_price_no_nkd=MoneyAmount(value=Decimal(1), currency='RUB'),
-                                               expected_yield=MoneyAmount(value=Decimal(0), currency='RUB'))
+        portfolio_position = PortfolioPosition.fake_rub(currency_position.balance)
 
         portfolio.positions.append(portfolio_position)
