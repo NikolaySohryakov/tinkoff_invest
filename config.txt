@@ -1,3 +1,7 @@
 [DEFAULT]
-APIKey = <API KEY from your Tinkoff account>
 StartDate = 01.03.2021
+
+[API]
+ProductionToken = <production token>
+SandboxToken = <sandbox token>
+UseSandbox = false
